@@ -68,7 +68,9 @@ const FileUploader = () => {
               });
 
               const data = await response.json();
-              setDownloadURL(data);
+              //setDownloadURL(data);
+              alert("Documento cargado");
+              console.log(data);
               setLoading(false); // Desactivar el spinner de carga
             } catch (error) {
               console.log(error);

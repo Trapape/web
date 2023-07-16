@@ -3,6 +3,7 @@ import CargasAdmin from "./cargasAdmin";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { endSession, getSession, isLoggedIn } from "../utils/session";
+import SideNavTrapape from "../component/SideNavTrapape";
 
 export default function User() {
   let navigate = useNavigate();
@@ -26,36 +27,14 @@ export default function User() {
   };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-    >
-      {/*<Container maxWidth="xs" sx={{ mt: 2 }}>*/}
-        <Typography variant="h6" component="h1" textAlign="center" gutterBottom>
-          You're logged in as:
-        </Typography>
-        <Typography variant="h5" component="h1" textAlign="center" gutterBottom>
-          {email}
-        </Typography>
-        <Typography variant="p" component="p" textAlign="center" gutterBottom>
-          Check the console for your (access/session) token.
-        </Typography>
-        <Button variant="contained" color="error" onClick={onLogout} sx={{ mt: 3 }} fullWidth>
-          Log out
-        </Button>
-      
-      {/*<Container maxWidth="xs" sx={{ mt: 2 }}>*/}
-        <Typography variant="h6" component="h1" textAlign="center" gutterBottom>
-          CARGAS
-        </Typography>
-        <CargasAdmin />
-      
-    </div>
+    <>
+      <SideNavTrapape />
+      <div className="p-4 sm:ml-64">
+        <div className="p-4 rounded-md mt-14">
+          <h1 className="text-left text-blue-800 uppercase">Cargas</h1>
+          <CargasAdmin />
+        </div>
+      </div>
+    </>
   );
 }
-

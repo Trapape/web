@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Grid, Paper, Typography, Link } from "@mui/material";
 import { downloadStorage } from "../utils/firebaseStorage"; // Asegúrate de importar `storage` correctamente
+import { UilFileDownload } from '@iconscout/react-unicons';
 
 const DescargarMachote = () => {
   const [downloadURL, setDownloadURL] = useState("");
@@ -16,16 +17,14 @@ const DescargarMachote = () => {
   }, []);
 
   return (
-    <Grid item xs={12}>
-      <Paper>
-        <Typography variant="h6" gutterBottom>
-          Descargar Machote
-        </Typography>
-        <Link href={downloadURL} download>
-          Descargar archivo
-        </Link>
-      </Paper>
-    </Grid>
+    <div className="container mx-3 my-3 py-3 text-right">
+      <p className="text-gray-500 capitalize text-base font-bold">
+        Descargar machote
+      </p>
+      <a className="bg-blue-800 font-bold py-2 px-4 rounded-lg inline-flex items-center" href={downloadURL}>
+        <UilFileDownload size="20" color="#FFFFFF"></UilFileDownload>
+      </a>
+    </div>
   );
 };
 

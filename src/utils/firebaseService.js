@@ -3,6 +3,15 @@ import { getDatabase, ref, set, push, update, remove, onValue, orderByChild, equ
 const db = getDatabase();
 
 // Función para leer datos de un nodo
+
+export function listenToItem(path, itemId, callback) {
+  const itemRef = ref(db, `${path}/${itemId}`);
+  onValue(itemRef, (snapshot) => {
+    const data = snapshot.val();
+    callback(data);
+  });
+}
+
 export const readData = (path) => {
   const dataRef = ref(db, path);
 
@@ -89,3 +98,11 @@ export const deleteData = (path) => {
       });
   });
 };
+
+export function listenToItem(path, itemId, callback) {
+  const itemRef = ref(db, `${path}/${itemId}`);
+  onValue(itemRef, (snapshot) => {
+    const data = snapshot.val();
+    callback(data);
+  });
+}

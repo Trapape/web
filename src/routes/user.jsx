@@ -2,6 +2,7 @@ import {Button, Container, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {endSession, getSession, isLoggedIn} from "../utils/session";
+import NavbarTrapape from "../component/NavbarTrapape";
 
 export default function User() {
   let navigate = useNavigate();
@@ -29,7 +30,8 @@ export default function User() {
 
 
   return (
-    <Container maxWidth="xs" sx={{mt: 2}}>
+    <Container sx={{mt: 2}}>
+      <NavbarTrapape/>
       <Typography variant="h6" component="h1" textAlign="center" gutterBottom>
         You're logged in as:
       </Typography>
