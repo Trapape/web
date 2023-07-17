@@ -98,11 +98,3 @@ export const deleteData = (path) => {
       });
   });
 };
-
-export function listenToItem(path, itemId, callback) {
-  const itemRef = ref(db, `${path}/${itemId}`);
-  onValue(itemRef, (snapshot) => {
-    const data = snapshot.val();
-    callback(data);
-  });
-}
