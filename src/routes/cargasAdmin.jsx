@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { readDataField, listenToItem } from "../utils/firebaseService";
+import { filterItemsByField } from "../utils/firebaseService";
 import { getSession, isLoggedIn } from "../utils/session";
 import SubirCargasMasivas from "../component/SubirCargasMasivas";
 import DescargarMachote from "../component/DescargarMachote";
-import { UilParcel } from '@iconscout/react-unicons';
-import { UilTruckLoading } from '@iconscout/react-unicons'
-import { UilCalender } from '@iconscout/react-unicons'
+import { UilParcel } from "@iconscout/react-unicons";
+import { UilTruckLoading } from "@iconscout/react-unicons";
 
 const CargasAdmin = () => {
   let navigate = useNavigate();
@@ -16,25 +15,35 @@ const CargasAdmin = () => {
   const [cargasDisponibles, setCargasDisponibles] = useState(true);
   const [itemData, setItemData] = useState(null);
 
-
   useEffect(() => {
     let session = getSession();
     console.log(session);
     const userId = session?.user?.uid?.toString(); // Asegurar que las propiedades existan antes de convertir el ID a string
 
-    listenToItem("projects/proj_meqjHnqVDFjzhizHdj6Fjq/data/Loads", "921d993e-d25c-453d-98b3-eb269e38055f", (data) => {
-      setItemData(data);
-      console.log(data);
-    });
-
     if (!isLoggedIn()) {
       navigate("/login");
     }
 
-    
     if (userId) {
       setUid(userId);
-      
+
+      filterItemsByField(
+        "projects/proj_meqjHnqVDFjzhizHdj6Fjq/data/Loads",
+        "userConsig",
+        userId,
+        (data) => {
+          setItemData(data);
+          console.log(data);
+          if (data === null) {
+            setCargasDisponibles(false);
+          } else {
+            const cargasArray = Object.values(data);
+            setCargas(cargasArray);
+            setCargasDisponibles(true);
+          }
+        }
+      );
+      /*
       readDataField(
         "projects/proj_meqjHnqVDFjzhizHdj6Fjq/data/Loads",
         "userConsig",
@@ -51,7 +60,7 @@ const CargasAdmin = () => {
         })
         .catch((error) => {
           console.error(error);
-        });
+        });*/
     } else {
       console.error("No se pudo obtener el ID de usuario");
     }
@@ -80,26 +89,44 @@ const CargasAdmin = () => {
       );
     }
 
+    const handleClick = (carga) => {
+      navigate("/detalleCarga", { state: carga });
+    };
+
     return cargasByStatus.map((carga) => (
-      <article key={carga.IdLoad} className="m-2 p-3 bg-white rounded-md shadow-lg w">
+      <article
+        key={carga.IdLoad}
+        className="m-2 p-3 bg-white rounded-md shadow-lg w"
+        onClick={() => handleClick(carga)} // Usa la función handleClick aquí
+      >
         <div className="flex mb-2">
-          <h3 className="text-center text-xl text-zinc-700">{carga.cargaTitulo}</h3>
+          <h3 className="text-center text-xl text-zinc-700">
+            {carga.cargaTitulo}
+          </h3>
+        </div>
+        <div className="flex mb-1">
+          <span className="text-xs text-gray-500 px-1">Codigo unico</span>
         </div>
         <div className="flex flex-wrap align-middle mb-2">
           <UilParcel size="14" color="#7F8487"></UilParcel>
           <span className="text-xs text-gray-500 px-1">Entrega: </span>
           <p className="text-justify break-all text-zinc-700 py-2">
-            {carga.Punto.entrega.postal_code} - {carga.Punto.entrega.sublocality} - {carga.Punto.entrega.locality}
+            {carga.Punto.entrega.postal_code} -{" "}
+            {carga.Punto.entrega.sublocality} - {carga.Punto.entrega.locality}
           </p>
         </div>
         <div className="flex flex-wrap align-middle">
           <UilTruckLoading size="14" color="#7F8487"></UilTruckLoading>
-          <span className="text-xs text-gray-500 px-1">Recolecci&oacute;n: </span>
+          <span className="text-xs text-gray-500 px-1">
+            Recolecci&oacute;n:{" "}
+          </span>
           <p className="text-justify break-all text-zinc-700 py-2">
-            {carga.Punto.recoleccion.postal_code} - {carga.Punto.recoleccion.sublocality} - {carga.Punto.recoleccion.locality}
+            {carga.Punto.recoleccion.postal_code} -{" "}
+            {carga.Punto.recoleccion.sublocality} -{" "}
+            {carga.Punto.recoleccion.locality}
           </p>
         </div>
-        
+
         <div className="">
           <span className="text-ys text-gray-500">ID: {carga.IdLoad}</span>
         </div>
@@ -111,7 +138,7 @@ const CargasAdmin = () => {
     <>
       <div className="container mx-3 my-3 py-3">
         <div className="flex flex-row flex-nowrap">
-        {cargaStatuses.map((status) => (
+          {cargaStatuses.map((status) => (
             <>
               <div className="flex-initial w-96 bg-slate-100 rounded-lg mx-1 py-3">
                 <h6 className="text-left uppercase text-zinc-700 px-5">
@@ -122,20 +149,11 @@ const CargasAdmin = () => {
                 </div>
               </div>
             </>
-        ))}
+          ))}
         </div>
       </div>
       <DescargarMachote />
       <SubirCargasMasivas />
-
-      <div>
-      {itemData ? (
-        <div>Valor del item: {itemData.config.config.estatusCarga}</div>
-      ) : (
-        <div>Cargando...</div>
-      )}
-    </div>
-      
     </>
   );
 };

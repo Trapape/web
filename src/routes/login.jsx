@@ -31,7 +31,6 @@ export default function Login() {
       startSession(loginResponse.user);
       navigate("/user");
     } catch (error) {
-      console.error(error.message);
       setError(error.message);
     }
   }

@@ -3,15 +3,6 @@ import { getDatabase, ref, set, push, update, remove, onValue, orderByChild, equ
 const db = getDatabase();
 
 // Función para leer datos de un nodo
-
-export function listenToItem(path, itemId, callback) {
-  const itemRef = ref(db, `${path}/${itemId}`);
-  onValue(itemRef, (snapshot) => {
-    const data = snapshot.val();
-    callback(data);
-  });
-}
-
 export const readData = (path) => {
   const dataRef = ref(db, path);
 
@@ -98,3 +89,31 @@ export const deleteData = (path) => {
       });
   });
 };
+
+// Función que lee un dato desde su ID y mantiene en tiempo real los cambios
+export function listenToItem(path, itemId, callback) {
+  const itemRef = ref(db, `${path}/${itemId}`);
+  onValue(itemRef, (snapshot) => {
+    const data = snapshot.val();
+    callback(data);
+  });
+}
+
+// Función que lee una lista y mantiene en tiempo real los cambios
+export function listenToList(path, callback) {
+  const listRef = ref(db, path);
+  onValue(listRef, (snapshot) => {
+    const data = snapshot.val();
+    callback(data);
+  });
+}
+
+// Función que lee una lista con filtador por field y mantiene en tiempo real los cambios
+export function filterItemsByField(path, field, value, callback) {
+  const listRef = ref(db, path);
+  onValue(listRef, (snapshot) => {
+    const data = snapshot.val();
+    const filteredItems = Object.values(data).filter(item => item[field] === value);
+    callback(filteredItems);
+  });
+}
