@@ -5,8 +5,7 @@ import { filterItemsByField } from "../utils/firebaseService";
 import { getSession, isLoggedIn } from "../utils/session";
 import SubirCargasMasivas from "../component/SubirCargasMasivas";
 import DescargarMachote from "../component/DescargarMachote";
-import { UilParcel } from "@iconscout/react-unicons";
-import { UilTruckLoading } from "@iconscout/react-unicons";
+import { Package, MapPin } from "react-feather";
 
 const CargasAdmin = () => {
   let navigate = useNavigate();
@@ -93,58 +92,60 @@ const CargasAdmin = () => {
       navigate("/detalleCarga", { state: carga });
     };
 
-    return cargasByStatus.map((carga) => (
-      <article
-        key={carga.IdLoad}
-        className="m-2 p-3 bg-white rounded-md shadow-lg w"
-        onClick={() => handleClick(carga)} // Usa la función handleClick aquí
-      >
+    return cargasByStatus.length > 0 ? cargasByStatus.map((carga) => (
+      <div key={carga.IdLoad} className="p-4 mt-2 bg-white rounded-lg shadow-lg" onClick={() => handleClick(carga)}>
         <div className="flex mb-2">
-          <h3 className="text-center text-xl text-zinc-700">
+          <h3 className="text-left text-lg text-gray-700">
             {carga.cargaTitulo}
           </h3>
         </div>
-        <div className="flex mb-1">
-          <span className="text-xs text-gray-500 px-1">Codigo unico</span>
-        </div>
-        <div className="flex flex-wrap align-middle mb-2">
-          <UilParcel size="14" color="#7F8487"></UilParcel>
-          <span className="text-xs text-gray-500 px-1">Entrega: </span>
-          <p className="text-justify break-all text-zinc-700 py-2">
+        <div className="flex flex-col align-middle mb-2">
+          <div className="flex items-center">
+            <span class="inline-flex items-center rounded-md bg-blue-50 px-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+              <Package width={14} />
+              <span className="text-xs text-blue-700 px-1">Entrega</span>
+            </span>
+          </div>
+          <p className="text-justify break-all text-gray-700 py-2">
             {carga.Punto.entrega.postal_code} -{" "}
             {carga.Punto.entrega.sublocality} - {carga.Punto.entrega.locality}
           </p>
         </div>
-        <div className="flex flex-wrap align-middle">
-          <UilTruckLoading size="14" color="#7F8487"></UilTruckLoading>
-          <span className="text-xs text-gray-500 px-1">
-            Recolecci&oacute;n:{" "}
-          </span>
-          <p className="text-justify break-all text-zinc-700 py-2">
-            {carga.Punto.recoleccion.postal_code} -{" "}
-            {carga.Punto.recoleccion.sublocality} -{" "}
+        <div className="flex flex-col align-middle">
+          <div className="flex items-center">
+            <span class="inline-flex items-center rounded-md bg-blue-50 px-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+              <MapPin width={14} />
+              <span className="text-xs text-blue-700 px-1">
+                Recolecci&oacute;n
+              </span>
+            </span>
+          </div>
+          <p className="text-justify break-all text-gray-700 py-2">
+            {carga.Punto.recoleccion.postal_code} - {" "}
+            {carga.Punto.recoleccion.sublocality} - {" "}
             {carga.Punto.recoleccion.locality}
           </p>
         </div>
-
         <div className="">
           <span className="text-ys text-gray-500">ID: {carga.IdLoad}</span>
         </div>
-      </article>
-    ));
+      </div>
+    ))
+    :
+      <p className="text-center text-gray-400 text-sm">Sin datos disponibles</p>
   };
 
   return (
     <>
-      <div className="container mx-3 my-3 py-3">
+      <div className="w-full p-3">
         <div className="flex flex-row flex-nowrap">
           {cargaStatuses.map((status) => (
             <>
-              <div className="flex-initial w-96 bg-slate-100 rounded-lg mx-1 py-3">
-                <h6 className="text-left uppercase text-zinc-700 px-5">
+              <div className="flex-initial w-96 mx-1 py-3">
+                <h6 className="text-center uppercase bg-slate-100 rounded-lg text-gray-700 py-2 text-sm">
                   {status}
                 </h6>
-                <div className="flex flex-col">
+                <div className="flex flex-col mt-3">
                   {renderCargasByStatus(status)}
                 </div>
               </div>

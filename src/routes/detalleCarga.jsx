@@ -2,17 +2,24 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 import InfoCarga from "../component/infoCarga";
-/*import Componente3 from './Componente3';
-import Componente4 from './Componente4';*/
+import SideNavTrapape from "../component/SideNavTrapape";
 
 const DetalleCarga = () => {
   const location = useLocation();
   const carga = location?.state;
 
   return (
-    <div className="flex flex-row flex-wrap m-4 bg-gray-100">
-      <InfoCarga carga={carga} />
-    </div>
+    <>
+      <SideNavTrapape />
+      <div className="p-4 sm:ml-64  bg-gray-100">
+        <div className="mt-14 flex flex-row flex-wrap m-4">
+          <div className="w-full p-4">
+            <h1 className="text-left text-blue-800 uppercase text-xl">Detalle de la Carga: {carga.IdLoad}</h1>
+          </div>
+          <InfoCarga carga={carga} />
+        </div>
+      </div>
+    </>
   );
 };
 

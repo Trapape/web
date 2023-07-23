@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { UilSignout } from '@iconscout/react-unicons'
+import { LogOut } from "react-feather";
 
 const NavbarTrapape = () => {
    return (
       <>
-         <nav className="fixed w-full top-0 z-50 bg-blue-950">
+         <nav className="fixed w-full top-0 z-50 bg-blue-800 shadow-lg">
             <div className="mx-auto px-2 sm:px-6 lg:px-8">
                <div className="relative flex h-16 items-center justify-between">
                   <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -20,15 +20,17 @@ const NavbarTrapape = () => {
                   </div>
                   <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                      <div className="flex flex-shrink-0 items-center">
-                        <p className="text-white uppercase">Trapape</p>
+                        <p className="text-white uppercase text-xl">Trapape</p>
                      </div>
                   </div>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                      <div className="relative ml-3">
                         <div>
-                           <button type="button" className="flex rounded-sm border-1 bg-gray-900 p-2" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                              <UilSignout size="16" color="#FFF"/>
-                              <span className="text-white text-sm">Cerrar Sesi&oacute;n</span>
+                           <button type="button" className="flex items-center rounded-xl p-2 bg-white text-blue-800 text-sm" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                              <span className="mr-1">
+                                    <LogOut width={14} />
+                                </span>
+                              Cerrar Sesi&oacute;n
                            </button>
                         </div>
                      </div>

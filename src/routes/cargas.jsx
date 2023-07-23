@@ -30,8 +30,10 @@ export default function User() {
     <>
       <SideNavTrapape />
       <div className="p-4 sm:ml-64">
-        <div className="p-4 rounded-md mt-14">
-          <h1 className="text-left text-blue-800 uppercase">Cargas</h1>
+        <div className="mt-14 m-4">
+          <div className="w-full p-4">
+            <h1 className="text-left text-blue-800 uppercase text-xl">Cargas</h1>
+          </div>
           <CargasAdmin />
         </div>
       </div>
