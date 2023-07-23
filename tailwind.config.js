@@ -8,7 +8,11 @@ module.exports = {
       fontSize: {
         ys: '0.6rem',
         xxs: '0.7rem'
-      }
+      },
+      screens: {
+        'xs': '475px',
+        'ys': '360px'
+      },
     }
   },
   plugins: [],
