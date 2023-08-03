@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { filterItemsByField } from "../utils/firebaseService";
@@ -16,8 +16,7 @@ const CargasAdmin = () => {
 
   useEffect(() => {
     let session = getSession();
-    console.log(session);
-    const userId = session?.user?.uid?.toString(); // Asegurar que las propiedades existan antes de convertir el ID a string
+    const userId = session?.user?.uid?.toString();
 
     if (!isLoggedIn()) {
       navigate("/login");

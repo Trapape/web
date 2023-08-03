@@ -156,7 +156,7 @@ const infoCarga = ({ carga }) => {
             </h3>
           </div>
           <div className="p-5">
-            <Maps apiKey={"AIzaSyBs-iRGy4GQdnqmLrDqMSV8sIcraM9kXl4"} />
+            <Maps cargas={ carga } />
           </div>
         </div>
       </div>

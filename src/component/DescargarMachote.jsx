@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Grid, Paper, Typography, Link } from "@mui/material";
 import { downloadStorage } from "../utils/firebaseStorage"; // Asegúrate de importar `storage` correctamente
 import { UilFileDownload } from '@iconscout/react-unicons';
 

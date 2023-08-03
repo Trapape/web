@@ -29,7 +29,7 @@ export default function Login() {
     try {
       let loginResponse = await signInUser(email, password);
       startSession(loginResponse.user);
-      navigate("/user");
+      navigate("/cargas");
     } catch (error) {
       setError(error.message);
     }
