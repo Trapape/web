@@ -5,7 +5,7 @@ import { filterItemsByField } from "../utils/firebaseService";
 import { getSession, isLoggedIn } from "../utils/session";
 import SubirCargasMasivas from "../component/SubirCargasMasivas";
 import DescargarMachote from "../component/DescargarMachote";
-import { Package, MapPin } from "react-feather";
+import { Package, MapPin, ChevronsRight } from "react-feather";
 
 const CargasAdmin = () => {
   let navigate = useNavigate();
@@ -91,46 +91,73 @@ const CargasAdmin = () => {
       navigate("/detalleCarga", { state: carga });
     };
 
+    const mostrarFechaCarga = (detalleCarga) => {
+      switch (detalleCarga.config.config.estatusCarga) {
+        case 'Publicada':
+          return <p className="text-justify break-all text-xs text-gray-500 py-2">
+            Fecha Recolecci&oacute;n: {detalleCarga.Punto.recoleccion.fecha}
+          </p>;
+        case 'Finalizada':
+          return (<>
+            <p className="text-justify break-all text-xs text-gray-500 mt-3">
+              Fecha Recolecci&oacute;n: {detalleCarga.Punto.recoleccion.fecha}
+            </p>
+            <p className="text-justify break-all text-xs text-gray-500">
+              Fecha Entrega: {detalleCarga.Punto.entrega.fecha}
+            </p>
+          </>
+          );
+
+        default:
+          return <p className="text-justify break-all text-xs text-gray-500 py-2">
+            Fecha Entrega: {detalleCarga.Punto.entrega.fecha}
+          </p>
+      }
+    };
+
+    const mostrarColorCarga = (estatusCarga) => {
+      switch (estatusCarga) {
+        case 'Publicada':
+            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-slate-200 to-slate-500 h-2"></div>;
+        case 'Finalizada':
+            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-green-200 to-green-500 h-2"></div>;
+        case 'En recoleccion':
+            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-orange-200 to-orange-500 h-2"></div>;
+        case 'En tránsito':
+            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-sky-200 to-sky-500 h-2"></div>;
+        case 'En entrega':
+            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-violet-200 to-violet-500 h-2"></div>;
+        default:
+            return;
+      }
+    };
+
     return cargasByStatus.length > 0 ? cargasByStatus.map((carga) => (
-      <div key={carga.IdLoad} className="p-4 mt-2 bg-white rounded-lg shadow-lg" onClick={() => handleClick(carga)}>
-        <div className="flex mb-2">
-          <h3 className="text-left text-lg text-gray-700">
-            {carga.cargaTitulo}
-          </h3>
-        </div>
-        <div className="flex flex-col align-middle mb-2">
-          <div className="flex items-center">
-            <span class="inline-flex items-center rounded-md bg-blue-50 px-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-              <Package width={14} />
-              <span className="text-xs text-blue-700 px-1">Entrega</span>
-            </span>
+      <div key={carga.IdLoad} className="rounded-lg shadow-lg" onClick={() => handleClick(carga)}>
+        <div className="p-4 mt-2 bg-white">
+          <div className="mb-2">
+            <h3 className="text-left text-lg">
+              {carga.cargaTitulo}
+            </h3>
+            <span className="text-ys text-gray-500">ID: {carga.IdLoad}</span>
           </div>
-          <p className="text-justify break-all text-gray-700 py-2">
-            {carga.Punto.entrega.postal_code} -{" "}
-            {carga.Punto.entrega.sublocality} - {carga.Punto.entrega.locality}
-          </p>
-        </div>
-        <div className="flex flex-col align-middle">
-          <div className="flex items-center">
-            <span class="inline-flex items-center rounded-md bg-blue-50 px-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-              <MapPin width={14} />
-              <span className="text-xs text-blue-700 px-1">
-                Recolecci&oacute;n
+          <div className="mb-2">
+            <p className="line-clamp-4">
+              {carga.Punto.recoleccion.locality}, {carga.Punto.recoleccion.area_administrative_1}
+              <span className="inline-flex align-middle text-gray-500 px-1">
+                <ChevronsRight width={16} />
               </span>
-            </span>
+              {carga.Punto.entrega.locality}, {carga.Punto.entrega.area_administrative_1}
+            </p>
           </div>
-          <p className="text-justify break-all text-gray-700 py-2">
-            {carga.Punto.recoleccion.postal_code} - {" "}
-            {carga.Punto.recoleccion.sublocality} - {" "}
-            {carga.Punto.recoleccion.locality}
-          </p>
+          <div className="mb-1">
+            {mostrarFechaCarga(carga)}
+          </div>
         </div>
-        <div className="">
-          <span className="text-ys text-gray-500">ID: {carga.IdLoad}</span>
-        </div>
+        {mostrarColorCarga(carga.config.config.estatusCarga)}
       </div>
     ))
-    :
+      :
       <p className="text-center text-gray-400 text-sm">Sin datos disponibles</p>
   };
 
