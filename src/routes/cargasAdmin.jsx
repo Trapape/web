@@ -5,7 +5,8 @@ import { filterItemsByField } from "../utils/firebaseService";
 import { getSession, isLoggedIn } from "../utils/session";
 import SubirCargasMasivas from "../component/SubirCargasMasivas";
 import DescargarMachote from "../component/DescargarMachote";
-import { Package, MapPin, ChevronsRight } from "react-feather";
+import { Package, MapPin, ChevronsRight, Filter } from "react-feather";
+import FiltroEstatusCarga from "../component/FiltroEstatusCarga";
 
 const CargasAdmin = () => {
   let navigate = useNavigate();
@@ -118,17 +119,17 @@ const CargasAdmin = () => {
     const mostrarColorCarga = (estatusCarga) => {
       switch (estatusCarga) {
         case 'Publicada':
-            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-slate-200 to-slate-500 h-2"></div>;
+          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-slate-200 to-slate-500 h-2"></div>;
         case 'Finalizada':
-            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-green-200 to-green-500 h-2"></div>;
+          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-green-200 to-green-500 h-2"></div>;
         case 'En recoleccion':
-            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-orange-200 to-orange-500 h-2"></div>;
+          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-orange-200 to-orange-500 h-2"></div>;
         case 'En tránsito':
-            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-sky-200 to-sky-500 h-2"></div>;
+          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-sky-200 to-sky-500 h-2"></div>;
         case 'En entrega':
-            return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-violet-200 to-violet-500 h-2"></div>;
+          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-violet-200 to-violet-500 h-2"></div>;
         default:
-            return;
+          return;
       }
     };
 
@@ -168,9 +169,16 @@ const CargasAdmin = () => {
           {cargaStatuses.map((status) => (
             <>
               <div className="flex-initial w-96 mx-1 py-3">
-                <h6 className="text-center uppercase bg-slate-100 rounded-lg text-gray-700 py-2 text-sm">
-                  {status}
-                </h6>
+                <div className="flex items-center bg-slate-100 rounded-lg py-[4px]">
+                  <div className="grow w-full">
+                    <h6 className="text-center uppercase text-gray-700 text-sm">
+                      {status}
+                    </h6>
+                  </div>
+                  <div className="grow-0 w-12">
+                    <FiltroEstatusCarga />
+                  </div>
+                </div>
                 <div className="flex flex-col mt-3">
                   {renderCargasByStatus(status)}
                 </div>
