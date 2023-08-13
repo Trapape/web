@@ -3,8 +3,6 @@ import { Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { filterItemsByField } from "../utils/firebaseService";
 import { getSession, isLoggedIn } from "../utils/session";
-import SubirCargasMasivas from "../component/SubirCargasMasivas";
-import DescargarMachote from "../component/DescargarMachote";
 import { Package, MapPin, ChevronsRight, Filter } from "react-feather";
 import FiltroEstatusCarga from "../component/FiltroEstatusCarga";
 
@@ -179,7 +177,7 @@ const CargasAdmin = () => {
                     <FiltroEstatusCarga />
                   </div>
                 </div>
-                <div className="flex flex-col mt-3">
+                <div className="flex flex-col mt-3 p-2 h-screen overflow-y-scroll">
                   {renderCargasByStatus(status)}
                 </div>
               </div>
@@ -187,8 +185,6 @@ const CargasAdmin = () => {
           ))}
         </div>
       </div>
-      <DescargarMachote />
-      <SubirCargasMasivas />
     </>
   );
 };

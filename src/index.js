@@ -8,6 +8,7 @@ import Register from "./routes/register";
 import User from "./routes/user";
 import Cargas from "./routes/cargas";
 import DetalleCarga from "./routes/detalleCarga";
+import CargasMasivas from './routes/cargasMasivas';
 import ErrorPage from "./error-page";
 import "@fontsource/cabin/400.css";
 import "@fontsource/cabin/500.css";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
     path: "/detalleCarga",
     element: <DetalleCarga/>,
   },
+  {
+    path: '/cargasMasivas',
+    element: <CargasMasivas/>
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

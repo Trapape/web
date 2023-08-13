@@ -9,6 +9,7 @@ import {
 import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
 import Button from "@mui/material/Button";
+import { Upload } from "react-feather";
 
 const FileUploader = () => {
   const [file, setFile] = useState(null);
@@ -95,37 +96,55 @@ const FileUploader = () => {
   });
 
   return (
-    <div>
+    <div className="pb-3">
+      <p className="text-sm break-normal leading-relaxed">
+        Para cargar grandes cantidades de datos puede realizarlo con un documento de Excel.
+      </p>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p>Suelta el archivo aquí...</p>
+          <p className="text-sm">Suelta el archivo aquí...</p>
         ) : (
-          <p>
-            Arrastra y suelta un archivo aquí, o haz clic para seleccionar un
+          <p className="text-sm text-gray-500">
+            Arrastra y suelta un archivo aquí o haz click sobre para seleccionar un
             archivo
           </p>
         )}
       </div>
-      {file && <p>Archivo seleccionado: {file.name}</p>}
-      <Button variant="contained" onClick={handleFileUpload} disabled={!file}>
-        Subir archivo
-      </Button>
-      {loading && (
-        <div className="spinner">
-          <ClipLoader color="#ffffff" size={35} />
-        </div>
-      )}
-      {downloadURL && (
-        <p>
-          URL de descarga:{" "}
-          <a href={downloadURL} target="_blank" rel="noopener noreferrer">
-            {downloadURL}
-          </a>
-        </p>
-      )}
+
+      {file && <p className="text-sm mt-3 text-gray-500">Archivo seleccionado: {file.name}</p>}
+      <button type="button" onClick={handleFileUpload} disabled={!file} className="flex items-center justify-center w-52 font-medium text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 rounded-lg text-sm px-5 py-2.5 text-center mt-2">
+        <span className="mr-1">
+          <Upload width={16} />
+        </span>
+        Cargar documento
+      </button>
+
+      {/*
+        <Button variant="contained" onClick={handleFileUpload} disabled={!file}>
+          Subir archivo
+        </Button>
+      */}
+
+      {
+        loading && (
+          <div className="spinner">
+            <ClipLoader color="#ffffff" size={35} />
+          </div>
+        )
+      }
+      {
+        downloadURL && (
+          <p>
+            URL de descarga:{" "}
+            <a href={downloadURL} target="_blank" rel="noopener noreferrer">
+              {downloadURL}
+            </a>
+          </p>
+        )
+      }
       {apiResponse && <p>Respuesta de la API: {JSON.stringify(apiResponse)}</p>}
-    </div>
+    </div >
   );
 };
 
