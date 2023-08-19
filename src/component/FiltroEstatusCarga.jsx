@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Filter } from "react-feather";
 
-function panelFiltros({ isActive }) {
+function PanelFiltros({ isActive }) {
     return (
         <>
             {isActive
@@ -49,7 +49,8 @@ function panelFiltros({ isActive }) {
 
         </>
     );
-};
+    
+}
 
 export default function FiltroEstatusCarga() {
     const [isActive, setActive] = useState(true);
@@ -60,7 +61,7 @@ export default function FiltroEstatusCarga() {
                     <Filter width={12} />
                 </span>
             </button>
-            <panelFiltros isActive={isActive} />
+            <PanelFiltros isActive={isActive} />
         </>
     );
-};
+}

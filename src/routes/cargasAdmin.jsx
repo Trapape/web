@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, TextField, Select, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { filterItemsByField } from "../utils/firebaseService";
 import { getSession, isLoggedIn } from "../utils/session";
 import { Package, MapPin, ChevronsRight, Filter } from "react-feather";
-import FiltroEstatusCarga from "../component/FiltroEstatusCarga";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CargasAdmin = () => {
   let navigate = useNavigate();
@@ -12,6 +13,13 @@ const CargasAdmin = () => {
   const [id, setUid] = useState("");
   const [cargasDisponibles, setCargasDisponibles] = useState(true);
   const [itemData, setItemData] = useState(null);
+  //filtros
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [searchByDateOption, setSearchByDateOption] = useState(""); // Puedes establecer "entrega" o "ambas"
+  const [dateOption, setDateOption] = useState("exacta"); // Puedes establecer "rango"
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     let session = getSession();
@@ -40,24 +48,6 @@ const CargasAdmin = () => {
           }
         }
       );
-      /*
-      readDataField(
-        "projects/proj_meqjHnqVDFjzhizHdj6Fjq/data/Loads",
-        "userConsig",
-        userId
-      )
-        .then((data) => {
-          if (data === null) {
-            setCargasDisponibles(false);
-          } else {
-            const cargasArray = Object.values(data);
-            setCargas(cargasArray);
-            setCargasDisponibles(true);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });*/
     } else {
       console.error("No se pudo obtener el ID de usuario");
     }
@@ -65,14 +55,31 @@ const CargasAdmin = () => {
 
   const cargaStatuses = [
     "Publicada",
+    "Aceptada",
     "En recoleccion",
     "En tránsito",
     "En entrega",
     "Finalizada",
   ];
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleFilterChange = (event) => {
+    setSelectedFilter(event.target.value);
+  };
+
+  const handleSearchByDateOptionChange = (event) => {
+    setSearchByDateOption(event.target.value);
+  };
+
+  const handleDateOptionChange = (event) => {
+    setDateOption(event.target.value);
+  };
+
   const renderCargasByStatus = (status) => {
-    const cargasByStatus = cargas.filter(
+    const cargasByStatus = filteredCargas.filter(
       (carga) => carga.config.config.estatusCarga === status
     );
 
@@ -92,77 +99,219 @@ const CargasAdmin = () => {
 
     const mostrarFechaCarga = (detalleCarga) => {
       switch (detalleCarga.config.config.estatusCarga) {
-        case 'Publicada':
-          return <p className="text-justify break-all text-xs text-gray-500 py-2">
-            Fecha Recolecci&oacute;n: {detalleCarga.Punto.recoleccion.fecha}
-          </p>;
-        case 'Finalizada':
-          return (<>
-            <p className="text-justify break-all text-xs text-gray-500 mt-3">
+        case "Publicada":
+          return (
+            <p className="text-justify break-all text-xs text-gray-500 py-2">
               Fecha Recolecci&oacute;n: {detalleCarga.Punto.recoleccion.fecha}
             </p>
-            <p className="text-justify break-all text-xs text-gray-500">
-              Fecha Entrega: {detalleCarga.Punto.entrega.fecha}
-            </p>
-          </>
+          );
+        case "Finalizada":
+          return (
+            <>
+              <p className="text-justify break-all text-xs text-gray-500 mt-3">
+                Fecha Recolecci&oacute;n: {detalleCarga.Punto.recoleccion.fecha}
+              </p>
+              <p className="text-justify break-all text-xs text-gray-500">
+                Fecha Entrega: {detalleCarga.Punto.entrega.fecha}
+              </p>
+            </>
           );
 
         default:
-          return <p className="text-justify break-all text-xs text-gray-500 py-2">
-            Fecha Entrega: {detalleCarga.Punto.entrega.fecha}
-          </p>
+          return (
+            <p className="text-justify break-all text-xs text-gray-500 py-2">
+              Fecha Entrega: {detalleCarga.Punto.entrega.fecha}
+            </p>
+          );
       }
     };
 
     const mostrarColorCarga = (estatusCarga) => {
       switch (estatusCarga) {
-        case 'Publicada':
-          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-slate-200 to-slate-500 h-2"></div>;
-        case 'Finalizada':
-          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-green-200 to-green-500 h-2"></div>;
-        case 'En recoleccion':
-          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-orange-200 to-orange-500 h-2"></div>;
-        case 'En tránsito':
-          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-sky-200 to-sky-500 h-2"></div>;
-        case 'En entrega':
-          return <div class="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-violet-200 to-violet-500 h-2"></div>;
+        case "Publicada":
+          return (
+            <div className="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-slate-200 to-slate-500 h-2"></div>
+          );
+        case "Finalizada":
+          return (
+            <div className="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-green-200 to-green-500 h-2"></div>
+          );
+        case "En recoleccion":
+          return (
+            <div className="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-orange-200 to-orange-500 h-2"></div>
+          );
+        case "En tránsito":
+          return (
+            <div className="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-sky-200 to-sky-500 h-2"></div>
+          );
+        case "En entrega":
+          return (
+            <div className="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-violet-200 to-violet-500 h-2"></div>
+          );
         default:
           return;
       }
     };
 
-    return cargasByStatus.length > 0 ? cargasByStatus.map((carga) => (
-      <div key={carga.IdLoad} className="rounded-lg shadow-lg" onClick={() => handleClick(carga)}>
-        <div className="p-4 mt-2 bg-white">
-          <div className="mb-2">
-            <h3 className="text-left text-lg">
-              {carga.cargaTitulo}
-            </h3>
-            <span className="text-ys text-gray-500">ID: {carga.IdLoad}</span>
+    return cargasByStatus.length > 0 ? (
+      cargasByStatus.map((carga) => (
+        <div
+          key={carga.IdLoad}
+          className="rounded-lg shadow-lg"
+          onClick={() => handleClick(carga)}
+        >
+          <div className="p-4 mt-2 bg-white">
+            <div className="mb-2">
+              <h3 className="text-left text-lg">{carga.cargaTitulo}</h3>
+              <span className="text-ys text-gray-500">ID: {carga.IdLoad}</span>
+            </div>
+            <div className="mb-2">
+              <p className="line-clamp-4">
+                {carga.Punto.recoleccion.locality},{" "}
+                {carga.Punto.recoleccion.area_administrative_1}
+                <span className="inline-flex align-middle text-gray-500 px-1">
+                  <ChevronsRight width={16} />
+                </span>
+                {carga.Punto.entrega.locality},{" "}
+                {carga.Punto.entrega.area_administrative_1}
+              </p>
+            </div>
+            <div className="mb-1">{mostrarFechaCarga(carga)}</div>
           </div>
-          <div className="mb-2">
-            <p className="line-clamp-4">
-              {carga.Punto.recoleccion.locality}, {carga.Punto.recoleccion.area_administrative_1}
-              <span className="inline-flex align-middle text-gray-500 px-1">
-                <ChevronsRight width={16} />
-              </span>
-              {carga.Punto.entrega.locality}, {carga.Punto.entrega.area_administrative_1}
-            </p>
-          </div>
-          <div className="mb-1">
-            {mostrarFechaCarga(carga)}
-          </div>
+          {mostrarColorCarga(carga.config.config.estatusCarga)}
         </div>
-        {mostrarColorCarga(carga.config.config.estatusCarga)}
-      </div>
-    ))
-      :
+      ))
+    ) : (
       <p className="text-center text-gray-400 text-sm">Sin datos disponibles</p>
+    );
   };
+
+  // Aplica los filtros a las cargas según los estados seleccionados
+  const filteredCargas = cargas.filter((carga) => {
+    let searchTermMatches = true;
+    let dateMatches = true;
+    let startDateMatches = true;
+    let endDateMatches = true;
+    
+    try {
+      const cargaRecoleccionDate = new Date(carga.Punto.recoleccion.fecha);
+      const cargaEntregaDate = new Date(carga.Punto.entrega.fecha);
+      if (
+        carga.config.config.estatusCarga === selectedFilter ||
+        selectedFilter === ""
+      ) {
+        //Aplica filtro por palabra clave");
+        searchTermMatches = carga.cargaTitulo
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+
+        // Aplica filtro por fecha de recolección, entrega o ambas
+        if (searchByDateOption !== "") {
+          dateMatches =
+            (searchByDateOption === "recoleccion" && cargaRecoleccionDate) ||
+            (searchByDateOption === "entrega" && cargaEntregaDate) ||
+            (searchByDateOption === "ambas" &&
+              (cargaRecoleccionDate || cargaEntregaDate));
+
+          // Filtro por fecha exacta o rango de fechas
+          const cargaDate =
+            searchByDateOption === "recoleccion"
+              ? cargaRecoleccionDate
+              : cargaEntregaDate;
+          startDateMatches = !startDate || cargaDate >= startDate;
+          endDateMatches = !endDate || cargaDate <= endDate;
+        }
+      }
+    } catch (error) {
+      searchTermMatches = false;
+      dateMatches = false;
+      startDateMatches = false;
+      endDateMatches = false;
+    }
+
+    return (
+      searchTermMatches && dateMatches && startDateMatches && endDateMatches
+    );
+  });
 
   return (
     <>
       <div className="w-full p-3">
+        <div className="flex flex-row flex-nowrap">
+          <TextField
+            label="Buscar"
+            variant="outlined"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="mr-2"
+          />
+          <Select
+            value={selectedFilter}
+            onChange={handleFilterChange}
+            variant="outlined"
+            className="mr-2"
+          >
+            <MenuItem value="">Todos los estatus</MenuItem>
+            {cargaStatuses.map((status) => (
+              <MenuItem key={status} value={status}>
+                {status}
+              </MenuItem>
+            ))}
+          </Select>
+          <div className="mr-2">
+            <select
+              value={searchByDateOption}
+              onChange={handleSearchByDateOptionChange}
+              className="p-2 border rounded-lg"
+            >
+              <option value="">Filtro por fechas</option>
+              <option value="recoleccion">Fecha de Recolección</option>
+              <option value="entrega">Fecha de Entrega</option>
+              <option value="ambas">Ambas Fechas</option>
+            </select>
+            {searchByDateOption === "" ? (
+              <div></div>
+            ) : (
+              <>
+                <div className="mr-2">
+                  <select
+                    value={dateOption}
+                    onChange={handleDateOptionChange}
+                    className="p-2 border rounded-lg"
+                  >
+                    <option value="exacta">Fecha Exacta</option>
+                    <option value="rango">Rango de Fechas</option>
+                  </select>
+                </div>
+                <div className="mr-2">
+                  {dateOption === "exacta" ? (
+                    <DatePicker
+                      selected={startDate}
+                      onChange={setStartDate}
+                      placeholderText="Fecha"
+                      className="p-2 border rounded-lg"
+                    />
+                  ) : (
+                    <>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={setStartDate}
+                        placeholderText="Fecha de Inicio"
+                        className="p-2 border rounded-lg"
+                      />
+                      <DatePicker
+                        selected={endDate}
+                        onChange={setEndDate}
+                        placeholderText="Fecha de Fin"
+                        className="p-2 border rounded-lg"
+                      />
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
         <div className="flex flex-row flex-nowrap">
           {cargaStatuses.map((status) => (
             <>
@@ -174,7 +323,11 @@ const CargasAdmin = () => {
                     </h6>
                   </div>
                   <div className="grow-0 w-12">
-                    <FiltroEstatusCarga />
+                    <button className=" text-white w-auto h-auto bg-blue-700 hover:bg-blue-800  focus:ring-blue-300 font-medium rounded-lg text-sm mx-3 px-2">
+                      <span>
+                        <Filter width={12} />
+                      </span>
+                    </button>
                   </div>
                 </div>
                 <div className="flex flex-col mt-3 p-2 h-screen overflow-y-scroll">

@@ -48,11 +48,11 @@ export default function Login() {
               <div className="w-full mx-auto mt-4" role="alert">
                 <div className="flex p-5 rounded-md border border-gray-300">
                   <div>
-                    <svg class="w-6 h-6 fill-current text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" /></svg>
+                    <svg className ="w-6 h-6 fill-current text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" /></svg>
                   </div>
                   <div className="ml-3">
-                    <h2 class="font-semibold text-slate-900">Error</h2>
-                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">{ error }</p>
+                    <h2 className ="font-semibold text-slate-900">Error</h2>
+                    <p className ="mt-2 text-sm text-slate-500 leading-relaxed">{ error }</p>
                   </div>
                 </div>
               </div>
