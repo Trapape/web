@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Start App",
-            "runtimeVersion": "16.15.0",
+            "runtimeVersion": "18.17.1",
             "runtimeArgs": ["start"],
             "env": {
                 "BROWSER": "none"

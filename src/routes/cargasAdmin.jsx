@@ -6,6 +6,7 @@ import { getSession, isLoggedIn } from "../utils/session";
 import { Package, MapPin, ChevronsRight, Filter } from "react-feather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 const CargasAdmin = () => {
   let navigate = useNavigate();
@@ -20,6 +21,7 @@ const CargasAdmin = () => {
   const [dateOption, setDateOption] = useState("exacta"); // Puedes establecer "rango"
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [searchByTypeLoadOption, setSearchByTypeLoadOption] = useState("");
 
   useEffect(() => {
     let session = getSession();
@@ -76,6 +78,10 @@ const CargasAdmin = () => {
 
   const handleDateOptionChange = (event) => {
     setDateOption(event.target.value);
+  };
+
+  const handleSearchByTypeLoadOptionChange = (event) => {
+    setSearchByTypeLoadOption(event.target.value);
   };
 
   const renderCargasByStatus = (status) => {
@@ -186,52 +192,72 @@ const CargasAdmin = () => {
     );
   };
 
+  function convertToDate(dateString) {
+    const [day, month, year] = dateString.split("-");
+    return new Date(`${month}-${day}-${year}`);
+  }
   // Aplica los filtros a las cargas según los estados seleccionados
   const filteredCargas = cargas.filter((carga) => {
     let searchTermMatches = true;
     let dateMatches = true;
-    let startDateMatches = true;
-    let endDateMatches = true;
-    
+    let typeLoadMatches = true;
+
     try {
-      const cargaRecoleccionDate = new Date(carga.Punto.recoleccion.fecha);
-      const cargaEntregaDate = new Date(carga.Punto.entrega.fecha);
+      const cargaRecoleccionDate = convertToDate(carga.Punto.recoleccion.fecha);
+      const cargaEntregaDate = convertToDate(carga.Punto.entrega.fecha);
+
       if (
         carga.config.config.estatusCarga === selectedFilter ||
         selectedFilter === ""
       ) {
-        //Aplica filtro por palabra clave");
+        // Aplica filtro por palabra clave
         searchTermMatches = carga.cargaTitulo
           .toLowerCase()
           .includes(searchTerm.toLowerCase());
 
+        // Aplica filtro por tipo de carga
+        if(searchByTypeLoadOption !== ""){
+          typeLoadMatches = carga.tipoCarga === searchByTypeLoadOption;
+        }
+        
+
         // Aplica filtro por fecha de recolección, entrega o ambas
         if (searchByDateOption !== "") {
-          dateMatches =
-            (searchByDateOption === "recoleccion" && cargaRecoleccionDate) ||
-            (searchByDateOption === "entrega" && cargaEntregaDate) ||
-            (searchByDateOption === "ambas" &&
-              (cargaRecoleccionDate || cargaEntregaDate));
-
-          // Filtro por fecha exacta o rango de fechas
-          const cargaDate =
-            searchByDateOption === "recoleccion"
-              ? cargaRecoleccionDate
-              : cargaEntregaDate;
-          startDateMatches = !startDate || cargaDate >= startDate;
-          endDateMatches = !endDate || cargaDate <= endDate;
+          if (searchByDateOption === "recoleccion") {
+            if (dateOption === "exacta") {
+              dateMatches = cargaRecoleccionDate.toDateString() === startDate.toDateString();
+            } else if (dateOption === "rango") {
+              dateMatches =
+                cargaRecoleccionDate >= startDate &&
+                cargaRecoleccionDate <= endDate;
+            }
+          } else if (searchByDateOption === "entrega") {
+            if (dateOption === "exacta") {
+              dateMatches = cargaEntregaDate.toDateString() === startDate.toDateString();
+            } else if (dateOption === "rango") {
+              dateMatches =
+                cargaEntregaDate >= startDate && cargaEntregaDate <= endDate;
+            }
+          } else if (searchByDateOption === "ambas") {
+            if (dateOption === "exacta") {
+              dateMatches =
+                cargaRecoleccionDate.toDateString() === startDate.toDateString() ||
+                cargaEntregaDate.toDateString() === startDate.toDateString();
+            } else if (dateOption === "rango") {
+              dateMatches =
+                (cargaRecoleccionDate >= startDate &&
+                  cargaRecoleccionDate <= endDate) ||
+                (cargaEntregaDate >= startDate && cargaEntregaDate <= endDate);
+            }
+          }
         }
       }
     } catch (error) {
       searchTermMatches = false;
       dateMatches = false;
-      startDateMatches = false;
-      endDateMatches = false;
     }
 
-    return (
-      searchTermMatches && dateMatches && startDateMatches && endDateMatches
-    );
+    return searchTermMatches && dateMatches && typeLoadMatches;
   });
 
   return (
@@ -258,6 +284,21 @@ const CargasAdmin = () => {
               </MenuItem>
             ))}
           </Select>
+          <div className="mr-2">
+            <select
+              value={searchByTypeLoadOption}
+              onChange={handleSearchByTypeLoadOptionChange}
+              className="p-2 border rounded-lg"
+            >
+              <option value="">Filtro por tipo de carga</option>
+              <option value="General">General</option>
+              <option value="Contenerizada">Contenerizada</option>
+              <option value="Plataforma">Plataforma</option>
+              <option value="Granel sólido">Granel sólido</option>
+              <option value="Granel líquido">Granel líquido</option>
+              <option value="Sobredimensionado">Sobredimensionado</option>
+            </select>
+          </div>
           <div className="mr-2">
             <select
               value={searchByDateOption}
