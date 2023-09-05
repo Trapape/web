@@ -58,7 +58,7 @@ const CargasAdmin = () => {
   const cargaStatuses = [
     "Publicada",
     "Aceptada",
-    "En recoleccion",
+    "En recolección",
     "En tránsito",
     "En entrega",
     "Finalizada",
@@ -142,7 +142,7 @@ const CargasAdmin = () => {
           return (
             <div className="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-green-200 to-green-500 h-2"></div>
           );
-        case "En recoleccion":
+        case "En recolección":
           return (
             <div className="rounded-bl-lg rounded-br-lg bg-gradient-to-r from-orange-200 to-orange-500 h-2"></div>
           );
