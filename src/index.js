@@ -6,6 +6,7 @@ import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import Login from "./routes/login";
 import Register from "./routes/register";
 import User from "./routes/user";
+import Perfil from "./routes/perfil";
 import Cargas from "./routes/cargas";
 import DetalleCarga from "./routes/detalleCarga";
 import CargasMasivas from './routes/cargasMasivas';
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>,
+  },
+  {
+    path: "/perfil",
+    element: <Perfil/>
   },
   {
     path: "/register",

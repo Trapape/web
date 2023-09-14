@@ -1,10 +1,22 @@
+import React, { useState } from "react";
 import SideNavTrapape from "../component/SideNavTrapape";
 import { Check, XCircle, AlertCircle } from "react-feather";
 import CargaValida from "../component/DetalleCargasMasivas/CargaValida";
 import SubirCargasMasivas from "../component/SubirCargasMasivas";
 import DescargarMachote from "../component/DescargarMachote";
+import CargaErronea from "../component/DetalleCargasMasivas/CargaErronea";
+
 
 const CargasMasivas = () => {
+    const [cargaValidaData, setCargaValidaData] = useState([]);
+    const [cargaInValidaData, setCargaInValidaData] = useState([]);
+
+    // Función para actualizar los datos cuando llegan
+    const actualizarCargaValidaData = (nuevosDatos) => {
+        setCargaValidaData(nuevosDatos);
+        setCargaInValidaData(nuevosDatos);
+    };
+
     return (
         <>
             <SideNavTrapape />
@@ -16,7 +28,7 @@ const CargasMasivas = () => {
                     <div className="w-full p-3">
                         <div className="grid grid-cols-3 gap-4 rounded-lg">
                             <div className="p-4 divide-y shadow-lg rounded-lg">
-                                <SubirCargasMasivas />
+                                <SubirCargasMasivas actualizarCargaValidaData={actualizarCargaValidaData} />
                                 <DescargarMachote />
                             </div>
                             <div className="col-span-2 flex flex-col">
@@ -28,7 +40,7 @@ const CargasMasivas = () => {
                                         Cargas Validas
                                     </h3>
                                     <div className="h-72 overflow-y-scroll mt-3 p-2">
-                                        <CargaValida />
+                                        <CargaValida data={cargaValidaData} />
                                     </div>
                                     <p className="mt-3 text-sm text-gray-400">Total: 5</p>
                                 </div>
@@ -40,9 +52,7 @@ const CargasMasivas = () => {
                                         Cargas Err&oacute;neas
                                     </h3>
                                     <div className="h-72 overflow-y-scroll mt-3 p-4">
-                                        <p className="mt-5 text-gray-400">
-                                            Sin informaci&oacute;n disponible
-                                        </p>
+                                        <CargaErronea data={cargaInValidaData} />
                                     </div>
                                     <p className="mt-3 text-sm text-gray-400">Total: 0</p>
                                 </div>

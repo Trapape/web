@@ -12,6 +12,7 @@ const CargasAdmin = () => {
   let navigate = useNavigate();
   const [cargas, setCargas] = useState([]);
   const [id, setUid] = useState("");
+  const [profile, setProfile] = useState("");
   const [cargasDisponibles, setCargasDisponibles] = useState(true);
   const [itemData, setItemData] = useState(null);
   //filtros
@@ -22,21 +23,33 @@ const CargasAdmin = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [searchByTypeLoadOption, setSearchByTypeLoadOption] = useState("");
-
+  
   useEffect(() => {
     let session = getSession();
+    setProfile(session.user.profile);
     const userId = session?.user?.uid?.toString();
 
     if (!isLoggedIn()) {
       navigate("/login");
     }
+    
+    let fieldID = "";
+    
+    if (session.user.profile === "consignante") {
+      fieldID = "userConsig";
+    } else if (session.user.profile === "transportista") {
+      fieldID = "userTranspor";
+    } else {
+      console.error("Perfil de usuario no reconocido:", session.user.profile);
+    }
+
 
     if (userId) {
       setUid(userId);
 
       filterItemsByField(
         "projects/proj_meqjHnqVDFjzhizHdj6Fjq/data/Loads",
-        "userConsig",
+        fieldID,
         userId,
         (data) => {
           setItemData(data);
@@ -55,14 +68,9 @@ const CargasAdmin = () => {
     }
   }, [navigate]);
 
-  const cargaStatuses = [
-    "Publicada",
-    "Aceptada",
-    "En recolección",
-    "En tránsito",
-    "En entrega",
-    "Finalizada",
-  ];
+  const cargaStatuses = profile === "transportista"
+    ? ["Aceptada", "En recolección", "En tránsito", "En entrega", "Finalizada"]
+    : ["Publicada", "Aceptada", "En recolección", "En tránsito", "En entrega", "Finalizada"];
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

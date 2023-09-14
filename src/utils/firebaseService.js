@@ -5,7 +5,6 @@ const db = getDatabase();
 // Función para leer datos de un nodo
 export const readData = (path) => {
   const dataRef = ref(db, path);
-
   return new Promise((resolve, reject) => {
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
