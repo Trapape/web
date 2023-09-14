@@ -68,9 +68,12 @@ const CargasAdmin = () => {
     }
   }, [navigate]);
 
+
   const cargaStatuses = profile === "transportista"
     ? ["Aceptada", "En recolección", "En tránsito", "En entrega", "Finalizada"]
     : ["Publicada", "Aceptada", "En recolección", "En tránsito", "En entrega", "Finalizada"];
+
+    console.log(profile);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
