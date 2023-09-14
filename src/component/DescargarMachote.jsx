@@ -6,7 +6,7 @@ const DescargarMachote = () => {
   const [downloadURL, setDownloadURL] = useState("");
 
   useEffect(() => {
-    downloadStorage("machotes/CARGAS MASIVAS TRAPAPE.xlsx")
+    downloadStorage("machotes/CARGAS_MASIVAS_TRAPAPE.xlsx")
       .then((url) => {
         setDownloadURL(url);
       })

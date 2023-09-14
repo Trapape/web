@@ -10,13 +10,14 @@ import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
 import Button from "@mui/material/Button";
 import { Upload } from "react-feather";
+import { getSession } from "../utils/session";
 
-const FileUploader = () => {
+const FileUploader = ({ actualizarCargaValidaData }) => {
   const [file, setFile] = useState(null);
   const [downloadURL, setDownloadURL] = useState(null);
   const [apiResponse, setAPIResponse] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  
 
   const handleFileUpload = async () => {
     if (file) {
@@ -51,10 +52,14 @@ const FileUploader = () => {
 
             const fetch = require("node-fetch");
 
-            const urlAPI = "https://api-trapape.azurewebsites.net/api/DownloadExcel";
+            //const urlAPI = "https://api-trapape.azurewebsites.net/api/DownloadExcel";
+            let session = getSession();
+        
+            const userId = session?.user?.uid?.toString();
+            const urlAPI = "http://trapape-api-dev.eba-2siftytp.us-east-1.elasticbeanstalk.com/api/DownloadExcel";
             const params = new URLSearchParams({
               URLExcel: url,
-              userConsig: "4V1okNHGntWVAdGzIGo2MdCeukI2",
+              userConsig: userId,
             });
 
             const requestUrl = `${urlAPI}?${params.toString()}`;
@@ -69,7 +74,7 @@ const FileUploader = () => {
               });
 
               const data = await response.json();
-              //setDownloadURL(data);
+              actualizarCargaValidaData(data.Data);
               alert("Documento cargado");
               console.log(data);
               setLoading(false); // Desactivar el spinner de carga

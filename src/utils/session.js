@@ -1,5 +1,6 @@
-export const startSession = (user) => {
-  sessionStorage.setItem("user", JSON.stringify(user));
+export const startSession = (user, additionalData) => {
+  const userData = { ...user, ...additionalData };
+  sessionStorage.setItem("user", JSON.stringify(userData));
 };
 
 export const getSession = () => {
