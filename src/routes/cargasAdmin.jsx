@@ -6,7 +6,6 @@ import { getSession, isLoggedIn } from "../utils/session";
 import { Package, MapPin, ChevronsRight, Filter } from "react-feather";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 
 const CargasAdmin = () => {
   let navigate = useNavigate();
@@ -70,8 +69,8 @@ const CargasAdmin = () => {
 
 
   const cargaStatuses = profile === "transportista"
-    ? ["Aceptada", "En recolección", "En tránsito", "En entrega", "Finalizada"]
-    : ["Publicada", "Aceptada", "En recolección", "En tránsito", "En entrega", "Finalizada"];
+    ? ["Aceptada", "En recolección", "En tránsito", "En entrega", "En proceso de finalizacion", "Finalizada"]
+    : ["Publicada", "Aceptada", "En recolección", "En tránsito", "En entrega", "En proceso de finalizacion", "Finalizada"];
 
     console.log(profile);
 
