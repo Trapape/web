@@ -273,7 +273,7 @@ const CargasAdmin = () => {
   return (
     <>
       <div className="w-full p-3">
-        <div className="flex flex-row flex-nowrap">
+        <div className="flex flex-col sm:flex-row flex-wrap">
           <TextField
             label="Buscar"
             variant="outlined"
@@ -363,7 +363,7 @@ const CargasAdmin = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-row flex-nowrap">
+        <div className="flex flex-col flex-wrap sm:flex-row sm:flex-nowrap">
           {cargaStatuses.map((status) => (
             <>
               <div className="flex-initial w-96 mx-1 py-3">
