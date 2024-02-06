@@ -20,6 +20,10 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const redirectToStore = (storeURL) => {
+    window.location.href = storeURL;
+  };
+
   const onSubmit = async (event) => {
     event.preventDefault();
 
@@ -52,10 +56,17 @@ export default function Login() {
       } else {
         const transportistaData = await readData(transportistaPath);
         if (transportistaData && transportistaData.customData) {
-          console.log("Es un transportista");
-          Object.assign(transportistaData, { profile: "transportista" });
-          startSession(loginResponse.user, transportistaData);
-          navigate("/cargas");
+          if(transportistaData.customData.rol === "Operador"){
+            console.log("Es un Operador");
+            const storeURL = /Android/.test(navigator.userAgent)
+            ? "https://play.google.com/store/apps/details?id=com.trapape.truck" 
+            : "https://apps.apple.com/mx/app/trapape-truck/id6449557811"; 
+            redirectToStore(storeURL);          
+          }else{
+            Object.assign(transportistaData, { profile: "transportista" });
+            startSession(loginResponse.user, transportistaData);
+            navigate("/cargas");
+          }
         } else {
           setError("No se ha determinado el perfil");
         }
