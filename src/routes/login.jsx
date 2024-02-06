@@ -44,14 +44,14 @@ export default function Login() {
       const transportistaPath = `/projects/proj_meqjHnqVDFjzhizHdj6Fjq/apps/app_1pAvW9AC5LiQYhzw2dpdJw/members/${userId}`;
 
       const consignanteData = await readData(consignantePath);
-      if (consignanteData.customData) {
+      if (consignanteData && consignanteData.customData) {
         console.log(consignanteData);
         Object.assign(consignanteData, { profile: "consignante" });
         startSession(loginResponse.user, consignanteData);
         navigate("/cargas");
       } else {
         const transportistaData = await readData(transportistaPath);
-        if (transportistaData.customData) {
+        if (transportistaData && transportistaData.customData) {
           console.log("Es un transportista");
           Object.assign(transportistaData, { profile: "transportista" });
           startSession(loginResponse.user, transportistaData);
