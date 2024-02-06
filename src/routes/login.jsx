@@ -19,6 +19,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const redirectToStore = (storeURL) => {
     window.location.href = storeURL;
@@ -58,6 +59,7 @@ export default function Login() {
         if (transportistaData && transportistaData.customData) {
           if(transportistaData.customData.rol === "Operador"){
             console.log("Es un Operador");
+            setShowMessage(true);
             const storeURL = /Android/.test(navigator.userAgent)
             ? "https://play.google.com/store/apps/details?id=com.trapape.truck" 
             : "https://apps.apple.com/mx/app/trapape-truck/id6449557811"; 
@@ -77,6 +79,13 @@ export default function Login() {
   };
 
   return (
+    <Container>
+      {showMessage && (
+        <Alert severity="info" onClose={() => setShowMessage(false)}>
+          Ser&aacute;s redireccionado a la app store.
+        </Alert>
+      )}
+      {
     <div className="flex justify-center w-screen h-screen mx-auto bg-white">
       <div className="flex flex-row self-center shadow-lg rounded-md">
         <div className="w-56 h-auto bg-gradient-to-r from-teal-500 to-blue-500 rounded-l-md"></div>
@@ -157,5 +166,7 @@ export default function Login() {
         </div>
       </div>
     </div>
+    }
+    </Container>
   );
 }
