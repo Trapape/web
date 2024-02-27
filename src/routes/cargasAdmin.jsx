@@ -363,30 +363,32 @@ const CargasAdmin = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-col flex-wrap sm:flex-row sm:flex-nowrap">
-          {cargaStatuses.map((status) => (
-            <>
-              <div className="flex-initial w-96 mx-1 py-3">
-                <div className="flex items-center bg-slate-100 rounded-lg py-[4px]">
-                  <div className="grow w-full">
-                    <h6 className="text-center uppercase text-gray-700 text-sm">
-                      {status}
-                    </h6>
+        <div className="overflow-x-auto">
+          <div className="flex flex-col flex-wrap sm:flex-row sm:flex-nowrap">
+            {cargaStatuses.map((status) => (
+              <>
+                <div className="flex-initial w-96 mx-1 py-3">
+                  <div className="flex items-center bg-slate-100 rounded-lg py-[4px]">
+                    <div className="grow w-full">
+                      <h6 className="text-center uppercase text-gray-700 text-sm">
+                        {status}
+                      </h6>
+                    </div>
+                    <div className="grow-0 w-12">
+                      <button className=" text-white w-auto h-auto bg-blue-700 hover:bg-blue-800  focus:ring-blue-300 font-medium rounded-lg text-sm mx-3 px-2">
+                        <span>
+                          <Filter width={12} />
+                        </span>
+                      </button>
+                    </div>
                   </div>
-                  <div className="grow-0 w-12">
-                    <button className=" text-white w-auto h-auto bg-blue-700 hover:bg-blue-800  focus:ring-blue-300 font-medium rounded-lg text-sm mx-3 px-2">
-                      <span>
-                        <Filter width={12} />
-                      </span>
-                    </button>
+                  <div className="flex flex-col mt-3 p-2 h-screen overflow-y-scroll">
+                    {renderCargasByStatus(status)}
                   </div>
                 </div>
-                <div className="flex flex-col mt-3 p-2 h-screen overflow-y-scroll">
-                  {renderCargasByStatus(status)}
-                </div>
-              </div>
-            </>
-          ))}
+              </>
+            ))}
+          </div>
         </div>
       </div>
     </>
