@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, RadioGroup, FormControlLabel, Radio, Select, MenuItem, Alert } from '@mui/material';
+import { TextField, Button, RadioGroup, FormControlLabel, Radio, Select, MenuItem, Alert, Checkbox } from '@mui/material';
 import { getSession, isLoggedIn } from "../utils/session";
 import Recommendations from "../component/formComponents/Recommendations";
 
@@ -28,6 +28,7 @@ const FormCargaNueva = () => {
   const [largo, setLargo] = useState('');
   const [peso, setPeso] = useState('');
   //State variables para 2do remolque
+  const [sameDimensions, setSameDimensions] = useState(true);
   const [numeroPiezas2, setNumeroPiezas2] = useState('');
   const [embalajeSeleccionado2, setEmbalajeSeleccionado2] = useState('');
   const [alto2, setAlto2] = useState('');
@@ -80,6 +81,13 @@ const FormCargaNueva = () => {
       Plataforma: selectedValue === 'Plataforma'
     };
 
+    setRecommendationsState({
+      "Carga refrigerada": false,
+      "Manejar con cuidado": false,
+      "Mantener seco": false,
+      "Estibar": false,
+    });
+
     setShowQuestions(updatedShowQuestions);
   };
 
@@ -98,15 +106,16 @@ const FormCargaNueva = () => {
   }
 
   useEffect(() => {
-    if (recommendationsState) {
-      console.log('Recommendations state updated:', recommendationsState);
-      //Esto estaba generando un bucle infinito
+    if (sameDimensions) {
+      setNumeroPiezas2(numeroPiezas);
+      setEmbalajeSeleccionado2(embalajeSeleccionado);
+      setAlto2(alto);
+      setAncho2(ancho);
+      setLargo2(largo);
+      setPeso2(peso);
     }
-  }, [recommendationsState]);
+  }, [sameDimensions, numeroPiezas, embalajeSeleccionado, alto, ancho, largo, peso]);
 
-  const handleRecommendationsChange = (updatedRecommendationsState) => {
-    setRecommendationsState(updatedRecommendationsState);
-  };
 
 
   return (
@@ -173,6 +182,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de unidad</MenuItem>
@@ -194,6 +204,7 @@ const FormCargaNueva = () => {
                 variant="outlined"
                 margin="normal"
                 className="mb-4"
+                required
               >
 
                 <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
@@ -203,7 +214,20 @@ const FormCargaNueva = () => {
               </Select>
             )}
             {remolqueSeleccionado === 'Full' && (
-              <p>Informaci&oacute;n del primer remolque:</p>
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={sameDimensions}
+                      onChange={(e) => setSameDimensions(e.target.checked)}
+                      className="mr-2 mb-4"
+                    />
+                  }
+                  label="Ambos remolques tienen las mismas dimensiones?"
+                />
+
+                <p>Información del {sameDimensions ? null : 'primer'} remolque:</p>
+              </>
             )}
             <TextField
               label="No. de piezas"
@@ -215,6 +239,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               className="mb-4"
               inputProps={{ min: 1 }}
+              required
             />
             <Select
               value={embalajeSeleccionado}
@@ -224,7 +249,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
-
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
@@ -250,6 +275,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
               <TextField
                 label="Ancho (cm)"
@@ -269,6 +295,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
             <div className="mb-8">
@@ -281,10 +308,11 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
             {/*Aqui empieza el segundo remolque */}
-            {remolqueSeleccionado === 'Full' && (
+            {remolqueSeleccionado === 'Full' && !sameDimensions && (
               <>
                 <p>Informaci&oacute;n del segundo remolque</p>
                 <TextField
@@ -297,6 +325,7 @@ const FormCargaNueva = () => {
                   variant="outlined"
                   className="mb-4"
                   inputProps={{ min: 1 }}
+                  required
                 />
                 <Select
                   value={embalajeSeleccionado2}
@@ -308,6 +337,7 @@ const FormCargaNueva = () => {
                   variant="outlined"
                   margin="normal"
                   className="mb-4"
+                  required
                 >
 
                   <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
@@ -333,6 +363,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                   <TextField
                     label="Ancho (cm)"
@@ -342,6 +373,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                   <TextField
                     label="Largo (cm)"
@@ -351,6 +383,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                 </div>
                 <div>
@@ -363,6 +396,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                 </div>
               </>
@@ -380,6 +414,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
+              required
             >
 
               <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
@@ -389,7 +424,20 @@ const FormCargaNueva = () => {
             </Select>
 
             {remolqueSeleccionado === 'Full' && (
-              <p>Informaci&oacute;n del primer remolque:</p>
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={sameDimensions}
+                      onChange={(e) => setSameDimensions(e.target.checked)}
+                      className="mr-2 mb-4"
+                    />
+                  }
+                  label="Ambos remolques tienen las mismas dimensiones?"
+                />
+
+                <p>Información del {sameDimensions ? null : 'primer'} remolque:</p>
+              </>
             )}
 
             <Select
@@ -401,6 +449,7 @@ const FormCargaNueva = () => {
               margin="normal"
               className="mb-4"
               disabled={tipoContenedor === "ISO" ? true : false}
+              required
             >
 
               <MenuItem value="" disabled>Seleciona el Tamaño</MenuItem>
@@ -420,6 +469,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de Contenedor</MenuItem>
@@ -443,12 +493,13 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
 
             {/*Aqui empieza el segundo contenedor */}
 
-            {remolqueSeleccionado === 'Full' && (
+            {remolqueSeleccionado === 'Full' && !sameDimensions && (
               <>
                 <p>Informaci&oacute;n del segundo remolque</p>
                 <Select
@@ -460,6 +511,7 @@ const FormCargaNueva = () => {
                   margin="normal"
                   className="mb-4"
                   disabled={tipoContenedor2 === "ISO" ? true : false}
+                  required
                 >
 
                   <MenuItem value="" disabled>Seleciona el Tamaño</MenuItem>
@@ -479,6 +531,7 @@ const FormCargaNueva = () => {
                   variant="outlined"
                   margin="normal"
                   className="mb-4"
+                  required
                 >
 
                   <MenuItem value="" disabled>Seleccione tipo de Contenedor</MenuItem>
@@ -502,6 +555,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                 </div>
               </>
@@ -520,6 +574,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de Plataforma</MenuItem>
@@ -543,6 +598,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
               <TextField
                 label="Ancho (cm)"
@@ -552,6 +608,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
               <TextField
                 label="Largo (cm)"
@@ -561,6 +618,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
             <div className="mb-8">
@@ -573,6 +631,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
           </>
@@ -588,6 +647,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de Plataforma</MenuItem>
@@ -607,6 +667,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
             <div className="mb-8">
@@ -619,6 +680,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
           </>
@@ -634,6 +696,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de Plataforma</MenuItem>
@@ -654,6 +717,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
             <div className="mb-8">
@@ -666,6 +730,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
           </>
@@ -687,6 +752,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de unidad</MenuItem>
@@ -705,6 +771,7 @@ const FormCargaNueva = () => {
                 variant="outlined"
                 margin="normal"
                 className="mb-4"
+                required
               >
 
                 <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
@@ -714,7 +781,20 @@ const FormCargaNueva = () => {
               </Select>
             )}
             {remolqueSeleccionado === 'Full' && (
-              <p>Informaci&oacute;n del primer remolque:</p>
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={sameDimensions}
+                      onChange={(e) => setSameDimensions(e.target.checked)}
+                      className="mr-2 mb-4"
+                    />
+                  }
+                  label="Ambos remolques tienen las mismas dimensiones?"
+                />
+
+                <p>Información del {sameDimensions ? null : 'primer'} remolque:</p>
+              </>
             )}
             <TextField
               label="No. de piezas"
@@ -726,6 +806,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               className="mb-4"
               inputProps={{ min: 1 }}
+              required
             />
             <Select
               value={embalajeSeleccionado}
@@ -735,7 +816,7 @@ const FormCargaNueva = () => {
               variant="outlined"
               margin="normal"
               className="mb-4"
-
+              required
             >
 
               <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
@@ -761,6 +842,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
               <TextField
                 label="Ancho (cm)"
@@ -780,6 +862,7 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
             <div className="mb-8">
@@ -792,9 +875,10 @@ const FormCargaNueva = () => {
                 margin="normal"
                 variant="outlined"
                 inputProps={{ min: 1 }}
+                required
               />
             </div>
-            {remolqueSeleccionado === 'Full' && (
+            {remolqueSeleccionado === 'Full' && !sameDimensions && (
               <>
                 <p>Informaci&oacute;n del segundo remolque</p>
                 <TextField
@@ -807,6 +891,7 @@ const FormCargaNueva = () => {
                   variant="outlined"
                   className="mb-4"
                   inputProps={{ min: 1 }}
+                  required
                 />
                 <Select
                   value={embalajeSeleccionado2}
@@ -818,6 +903,7 @@ const FormCargaNueva = () => {
                   variant="outlined"
                   margin="normal"
                   className="mb-4"
+                  required
                 >
 
                   <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
@@ -843,6 +929,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                   <TextField
                     label="Ancho (cm)"
@@ -852,6 +939,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                   <TextField
                     label="Largo (cm)"
@@ -861,6 +949,7 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                 </div>
                 <div>
@@ -873,13 +962,19 @@ const FormCargaNueva = () => {
                     margin="normal"
                     variant="outlined"
                     inputProps={{ min: 1 }}
+                    required
                   />
                 </div>
               </>
             )}
           </>
         )}
-        {selectedTipoCarga && <Recommendations selectedTipoCarga={selectedTipoCarga} />}
+        {selectedTipoCarga &&
+          <Recommendations
+            selectedTipoCarga={selectedTipoCarga}
+            recommendationsState={recommendationsState}
+            setRecommendationsState={setRecommendationsState}
+          />}
 
         <Button type="submit" variant="contained" color="primary">
           Generar Nueva Carga

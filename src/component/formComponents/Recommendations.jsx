@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { AlertTriangle, Droplet, Wind, Archive, Slash } from 'react-feather';
+import { Checkbox, FormControlLabel } from '@mui/material';
 
-function Recommendations({ selectedTipoCarga, recommendationsState, onRecommendationsChange }) {
+
+function Recommendations({ selectedTipoCarga, recommendationsState, setRecommendationsState }) {
 
   const recommendations = {
     General: ["Carga refrigerada", "Manejar con cuidado", "Mantener seco", "Estibar"],
@@ -27,24 +29,33 @@ function Recommendations({ selectedTipoCarga, recommendationsState, onRecommenda
 
   const handleCheckboxChange = (recommendation) => {
     // Handle checkbox change here
+    setRecommendationsState(prevState => ({
+      ...prevState,
+      [recommendation]: !prevState[recommendation]
+    }));
   };
 
   return (
     <div>
       {recommendations[selectedTipoCarga] && recommendations[selectedTipoCarga].map((recommendation, index) => (
         <div key={index} className="mb-2">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              value={recommendation}
-              onChange={() => handleCheckboxChange(recommendation)}
-              className="mr-2"
-            />
-            <span>{recommendation}</span>
-            {iconMapping[recommendation] && (
-              <span className="ml-2">{iconMapping[recommendation]}</span>
-            )}
-          </label>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={recommendationsState[recommendation]}
+                onChange={() => handleCheckboxChange(recommendation)}
+                className="mr-2"
+              />
+            }
+            label={
+              <span className='flex'>
+                {recommendation}
+                {iconMapping[recommendation] && (
+                  <span className="ml-2">{iconMapping[recommendation]}</span>
+                )}
+              </span>
+            }
+          />
         </div>
       ))}
     </div>
