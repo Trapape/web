@@ -36,25 +36,25 @@ const FormCargaNueva = () => {
   const [peso2, setPeso2] = useState('');
   //Contenerizada
   const [tamano, setTamano] = useState('');
-  const [tipoContenedor,setTipoContenedor] = useState('');
+  const [tipoContenedor, setTipoContenedor] = useState('');
   const [tamano2, setTamano2] = useState('');
-  const [tipoContenedor2,setTipoContenedor2] = useState('');
+  const [tipoContenedor2, setTipoContenedor2] = useState('');
   //Sobredimensionado
   const [sobreDimensionado, setSobreDimensionado] = useState('');
   //Granel Solido & Liquido
-  const [granel,setGranel] = useState('');
+  const [granel, setGranel] = useState('');
   const [volumen, setVolumen] = useState('');
   //Plataforma
-const [plataforma,setPlataforma] = useState('');
-//Recomendaciones
-const [recommendationsState, setRecommendationsState] = useState({
-  "Carga refrigerada": false,
-  "Manejar con cuidado": false,
-  "Mantener seco": false,
-  "Estibar": false,
-});
+  const [plataforma, setPlataforma] = useState('');
+  //Recomendaciones
+  const [recommendationsState, setRecommendationsState] = useState({
+    "Carga refrigerada": false,
+    "Manejar con cuidado": false,
+    "Mantener seco": false,
+    "Estibar": false,
+  });
 
-  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,7 +91,7 @@ const [recommendationsState, setRecommendationsState] = useState({
   const handleInputChange = (e, setValue) => {
     const inputValue = e.target.value;
 
-    if (inputValue === '' || /^\d+$/.test(inputValue)){
+    if (inputValue === '' || /^\d+$/.test(inputValue)) {
       setValue(inputValue);
     }
 
@@ -107,7 +107,7 @@ const [recommendationsState, setRecommendationsState] = useState({
   const handleRecommendationsChange = (updatedRecommendationsState) => {
     setRecommendationsState(updatedRecommendationsState);
   };
-  
+
 
   return (
     <div className="mx-auto max-w-3xl p-4">
@@ -154,7 +154,7 @@ const [recommendationsState, setRecommendationsState] = useState({
           <FormControlLabel value="Granel Liquido" control={<Radio />} label="Granel Liquido" />
           <FormControlLabel value="Granel Sólido" control={<Radio />} label="Granel Sólido" />
           <FormControlLabel value="Plataforma" control={<Radio />} label="Plataforma" />
-          
+
         </RadioGroup>
 
         {showQuestions['General'] && (
@@ -162,7 +162,7 @@ const [recommendationsState, setRecommendationsState] = useState({
             <Select
               value={unidadSeleccionada}
               onChange={(e) => {
-                handleChange(e,setUnidadSeleccionada);
+                handleChange(e, setUnidadSeleccionada);
                 if (e.target.value !== '40') {
                   setRemolqueSeleccionado('Sencillo');
                   alert('Solo la caja de 40" puede ser Full');
@@ -174,7 +174,7 @@ const [recommendationsState, setRecommendationsState] = useState({
               margin="normal"
               className="mb-4"
             >
-              
+
               <MenuItem value="" disabled>Seleccione tipo de unidad</MenuItem>
               <MenuItem value="caja1t">Caja 1 tonelada</MenuItem>
               <MenuItem value="caja3t">Caja 3 1/2 tonelada</MenuItem>
@@ -183,24 +183,24 @@ const [recommendationsState, setRecommendationsState] = useState({
               <MenuItem value="40">Caja 40"</MenuItem>
               <MenuItem value="48">Caja 48"</MenuItem>
               <MenuItem value="53">Caja 53"</MenuItem>
-          
+
             </Select>
             {unidadSeleccionada === '40' && (
-            <Select
-              value={remolqueSeleccionado}
-              onChange={(e) => handleChange(e, setRemolqueSeleccionado)}
-              fullWidth
-              displayEmpty
-              variant="outlined"
-              margin="normal"
-              className="mb-4"
-            >
-              
-              <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
-              <MenuItem value="Sencillo">Sencillo (1 remolque)</MenuItem>
-              <MenuItem value="Full">Full (2 remolques)</MenuItem>
-              
-            </Select>
+              <Select
+                value={remolqueSeleccionado}
+                onChange={(e) => handleChange(e, setRemolqueSeleccionado)}
+                fullWidth
+                displayEmpty
+                variant="outlined"
+                margin="normal"
+                className="mb-4"
+              >
+
+                <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
+                <MenuItem value="Sencillo">Sencillo (1 remolque)</MenuItem>
+                <MenuItem value="Full">Full (2 remolques)</MenuItem>
+
+              </Select>
             )}
             {remolqueSeleccionado === 'Full' && (
               <p>Informaci&oacute;n del primer remolque:</p>
@@ -214,7 +214,7 @@ const [recommendationsState, setRecommendationsState] = useState({
               margin="normal"
               variant="outlined"
               className="mb-4"
-              inputProps={{min:1}}
+              inputProps={{ min: 1 }}
             />
             <Select
               value={embalajeSeleccionado}
@@ -226,9 +226,9 @@ const [recommendationsState, setRecommendationsState] = useState({
               className="mb-4"
 
             >
-              
+
               <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
-              
+
               <MenuItem value="Cajas">Cajas</MenuItem>
               <MenuItem value="Carton">Cart&oacute;n</MenuItem>
               <MenuItem value="Pallets">Pallets</MenuItem>
@@ -238,7 +238,7 @@ const [recommendationsState, setRecommendationsState] = useState({
               <MenuItem value="Bolsas">Sacos o bolsas</MenuItem>
               <MenuItem value="Atados">Atados</MenuItem>
               <MenuItem value="Na">No aplica</MenuItem>
-              
+
             </Select>
             <div className="gap-x-2">
               <p>Cual es la dimensi&oacute;n total de su carga:</p>
@@ -249,7 +249,7 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
               <TextField
                 label="Ancho (cm)"
@@ -258,7 +258,7 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
                 required
               />
               <TextField
@@ -268,111 +268,111 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
             <div className="mb-8">
               <p>Cual es el peso total de su carga:</p>
               <TextField
-                label ="Peso (kg)"
-                value ={peso}
+                label="Peso (kg)"
+                value={peso}
                 onChange={(e) => handleInputChange(e, setPeso)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
             {/*Aqui empieza el segundo remolque */}
             {remolqueSeleccionado === 'Full' && (
               <>
-              <p>Informaci&oacute;n del segundo remolque</p>
-              <TextField
-                label="No. de piezas"
-                value={numeroPiezas2}
-                onChange={(e) => handleInputChange(e, setNumeroPiezas2)}
-                fullWidth
-                type="number"
-                margin="normal"
-                variant="outlined"
-                className="mb-4"
-                inputProps={{min:1}}
-              />
-              <Select
-                value={embalajeSeleccionado2}
-                onChange={(e) => {
-                  handleChange(e, setEmbalajeSeleccionado2);
-                }}
-                fullWidth
-                displayEmpty
-                variant="outlined"
-                margin="normal"
-                className="mb-4"
-              >
-                
-                <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
-                
-                <MenuItem value="Cajas">Cajas</MenuItem>
-                <MenuItem value="Carton">Cart&oacute;n</MenuItem>
-                <MenuItem value="Pallets">Pallets</MenuItem>
-                <MenuItem value="Jaulas">Jaulas de madera</MenuItem>
-                <MenuItem value="Vidrio">Envases de vidrio</MenuItem>
-                <MenuItem value="Plastico">Envases de plastico</MenuItem>
-                <MenuItem value="Bolsas">Sacos o bolsas</MenuItem>
-                <MenuItem value="Atados">Atados</MenuItem>
-                <MenuItem value="Na">No aplica</MenuItem>
-                
-              </Select>
-              <div>
-                <p>Cual es la dimensión total de su carga:</p>
+                <p>Informaci&oacute;n del segundo remolque</p>
                 <TextField
-                  label="Alto (cm)"
-                  value={alto2}
-                  onChange={(e) => handleInputChange(e, setAlto2)}
+                  label="No. de piezas"
+                  value={numeroPiezas2}
+                  onChange={(e) => handleInputChange(e, setNumeroPiezas2)}
+                  fullWidth
                   type="number"
                   margin="normal"
                   variant="outlined"
-                  inputProps={{min:1}}
+                  className="mb-4"
+                  inputProps={{ min: 1 }}
                 />
-                <TextField
-                  label="Ancho (cm)"
-                  value={ancho2}
-                  onChange={(e) => handleInputChange(e, setAncho2)}
-                  type="number"
-                  margin="normal"
+                <Select
+                  value={embalajeSeleccionado2}
+                  onChange={(e) => {
+                    handleChange(e, setEmbalajeSeleccionado2);
+                  }}
+                  fullWidth
+                  displayEmpty
                   variant="outlined"
-                  inputProps={{min:1}}
-                />
-                <TextField
-                  label="Largo (cm)"
-                  value={largo2}
-                  onChange={(e) => handleInputChange(e, setLargo2)}
-                  type="number"
                   margin="normal"
-                  variant="outlined"
-                  inputProps={{min:1}}
-                />
-              </div>
-              <div>
-                <p>Cual es el peso total de su carga:</p>
-                <TextField
-                  label ="Peso (kg)"
-                  value ={peso2}
-                  onChange={(e) => handleInputChange(e, setPeso2)}
-                  type="number"
-                  margin="normal"
-                  variant="outlined"
-                  inputProps={{min:1}}
-                />
-              </div>
+                  className="mb-4"
+                >
+
+                  <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
+
+                  <MenuItem value="Cajas">Cajas</MenuItem>
+                  <MenuItem value="Carton">Cart&oacute;n</MenuItem>
+                  <MenuItem value="Pallets">Pallets</MenuItem>
+                  <MenuItem value="Jaulas">Jaulas de madera</MenuItem>
+                  <MenuItem value="Vidrio">Envases de vidrio</MenuItem>
+                  <MenuItem value="Plastico">Envases de plastico</MenuItem>
+                  <MenuItem value="Bolsas">Sacos o bolsas</MenuItem>
+                  <MenuItem value="Atados">Atados</MenuItem>
+                  <MenuItem value="Na">No aplica</MenuItem>
+
+                </Select>
+                <div>
+                  <p>Cual es la dimensión total de su carga:</p>
+                  <TextField
+                    label="Alto (cm)"
+                    value={alto2}
+                    onChange={(e) => handleInputChange(e, setAlto2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                  <TextField
+                    label="Ancho (cm)"
+                    value={ancho2}
+                    onChange={(e) => handleInputChange(e, setAncho2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                  <TextField
+                    label="Largo (cm)"
+                    value={largo2}
+                    onChange={(e) => handleInputChange(e, setLargo2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                </div>
+                <div>
+                  <p>Cual es el peso total de su carga:</p>
+                  <TextField
+                    label="Peso (kg)"
+                    value={peso2}
+                    onChange={(e) => handleInputChange(e, setPeso2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                </div>
               </>
             )}
           </>
         )}
 
         {showQuestions['Contenerizada'] && (
-         <>
-         <Select
+          <>
+            <Select
               value={remolqueSeleccionado}
               onChange={(e) => handleChange(e, setRemolqueSeleccionado)}
               fullWidth
@@ -381,11 +381,11 @@ const [recommendationsState, setRecommendationsState] = useState({
               margin="normal"
               className="mb-4"
             >
-              
+
               <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
               <MenuItem value="Sencillo">Sencillo (1 remolque)</MenuItem>
               <MenuItem value="Full">Full (2 remolques)</MenuItem>
-              
+
             </Select>
 
             {remolqueSeleccionado === 'Full' && (
@@ -402,7 +402,7 @@ const [recommendationsState, setRecommendationsState] = useState({
               className="mb-4"
               disabled={tipoContenedor === "ISO" ? true : false}
             >
-             
+
               <MenuItem value="" disabled>Seleciona el Tamaño</MenuItem>
               <MenuItem value="veinte">20"</MenuItem>
               <MenuItem value="cuarenta">40"</MenuItem>
@@ -430,84 +430,84 @@ const [recommendationsState, setRecommendationsState] = useState({
               <MenuItem value="reefer">Contenedor Frigor&iacute;fico o Reefer</MenuItem>
               <MenuItem value="iso">ISO Tanque solo 20"</MenuItem>
               <MenuItem value="dry">Dry Containers (DC)</MenuItem>
-              
-            </Select>  
+
+            </Select>
 
             <div className="mb-8">
               <p>Cual es el peso total de su carga:</p>
               <TextField
-                label ="Peso (kg)"
-                value ={peso}
+                label="Peso (kg)"
+                value={peso}
                 onChange={(e) => handleInputChange(e, setPeso)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
-            
+
             {/*Aqui empieza el segundo contenedor */}
 
             {remolqueSeleccionado === 'Full' && (
               <>
-              <p>Informaci&oacute;n del segundo remolque</p>
-              <Select
-              value={tamano2}
-              onChange={(e) => handleChange(e, setTamano2)}
-              fullWidth
-              displayEmpty
-              variant="outlined"
-              margin="normal"
-              className="mb-4"
-              disabled={tipoContenedor2 === "ISO" ? true : false}
-            >
-             
-              <MenuItem value="" disabled>Seleciona el Tamaño</MenuItem>
-              <MenuItem value="veinte">20"</MenuItem>
-              <MenuItem value="cuarenta">40"</MenuItem>
-            </Select>
-            <Select
-              value={tipoContenedor2}
-              onChange={(e) => {
-                handleChange(e, setTipoContenedor2);
-                if (e.target.value === "ISO") {
-                  setTamano2("veinte"); // Pone veinte bloqueando el selector cuando se selecciona ISO
-                }
-              }}
-              fullWidth
-              displayEmpty
-              variant="outlined"
-              margin="normal"
-              className="mb-4"
-            >
+                <p>Informaci&oacute;n del segundo remolque</p>
+                <Select
+                  value={tamano2}
+                  onChange={(e) => handleChange(e, setTamano2)}
+                  fullWidth
+                  displayEmpty
+                  variant="outlined"
+                  margin="normal"
+                  className="mb-4"
+                  disabled={tipoContenedor2 === "ISO" ? true : false}
+                >
 
-              <MenuItem value="" disabled>Seleccione tipo de Contenedor</MenuItem>
-              <MenuItem value="flatRack">Contenedor Flat Rack</MenuItem>
-              <MenuItem value="highCube">Contenedor High Cube Dry</MenuItem>
-              <MenuItem value="openTop">Contenedor Open Top</MenuItem>
-              <MenuItem value="plataforma">Contenedor Plataforma</MenuItem>
-              <MenuItem value="reefer">Contenedor Frigor&iacute;fico o Reefer</MenuItem>
-              <MenuItem value="iso">ISO Tanque solo 20"</MenuItem>
-              <MenuItem value="dry">Dry Containers (DC)</MenuItem>
-              
-            </Select>  
+                  <MenuItem value="" disabled>Seleciona el Tamaño</MenuItem>
+                  <MenuItem value="veinte">20"</MenuItem>
+                  <MenuItem value="cuarenta">40"</MenuItem>
+                </Select>
+                <Select
+                  value={tipoContenedor2}
+                  onChange={(e) => {
+                    handleChange(e, setTipoContenedor2);
+                    if (e.target.value === "ISO") {
+                      setTamano2("veinte"); // Pone veinte bloqueando el selector cuando se selecciona ISO
+                    }
+                  }}
+                  fullWidth
+                  displayEmpty
+                  variant="outlined"
+                  margin="normal"
+                  className="mb-4"
+                >
 
-            <div className="mb-8">
-              <p>Cual es el peso total de su carga:</p>
-              <TextField
-                label ="Peso (kg)"
-                value ={peso2}
-                onChange={(e) => handleInputChange(e, setPeso2)}
-                type="number"
-                margin="normal"
-                variant="outlined"
-                inputProps={{min:1}}
-              />
-            </div>
+                  <MenuItem value="" disabled>Seleccione tipo de Contenedor</MenuItem>
+                  <MenuItem value="flatRack">Contenedor Flat Rack</MenuItem>
+                  <MenuItem value="highCube">Contenedor High Cube Dry</MenuItem>
+                  <MenuItem value="openTop">Contenedor Open Top</MenuItem>
+                  <MenuItem value="plataforma">Contenedor Plataforma</MenuItem>
+                  <MenuItem value="reefer">Contenedor Frigor&iacute;fico o Reefer</MenuItem>
+                  <MenuItem value="iso">ISO Tanque solo 20"</MenuItem>
+                  <MenuItem value="dry">Dry Containers (DC)</MenuItem>
+
+                </Select>
+
+                <div className="mb-8">
+                  <p>Cual es el peso total de su carga:</p>
+                  <TextField
+                    label="Peso (kg)"
+                    value={peso2}
+                    onChange={(e) => handleInputChange(e, setPeso2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                </div>
               </>
-              
+
             )}
-         </>
+          </>
         )}
 
         {showQuestions['Sobredimensionado'] && (
@@ -530,8 +530,8 @@ const [recommendationsState, setRecommendationsState] = useState({
               <MenuItem value="48">Plataforma 48"</MenuItem>
               <MenuItem value="53">Plataforma 53"</MenuItem>
               <MenuItem value="lowBoy">Low Boy</MenuItem>
-              
-            </Select> 
+
+            </Select>
 
             <div>
               <p>Cual es la dimensi&oacute;n total de su carga:</p>
@@ -542,7 +542,7 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
               <TextField
                 label="Ancho (cm)"
@@ -551,7 +551,7 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
               <TextField
                 label="Largo (cm)"
@@ -560,19 +560,19 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
             <div className="mb-8">
               <p>Cual es el peso total de su carga:</p>
               <TextField
-                label ="Peso (kg)"
-                value ={peso}
+                label="Peso (kg)"
+                value={peso}
                 onChange={(e) => handleInputChange(e, setPeso)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
           </>
@@ -594,36 +594,36 @@ const [recommendationsState, setRecommendationsState] = useState({
               <MenuItem value="camion">Cami&oacute;n tanque</MenuItem>
               <MenuItem value="trailer">Tr&aacute;iler tanque</MenuItem>
               <MenuItem value="contenedor">Contenedor ISO tanque</MenuItem>
-              
-              
-            </Select> 
+
+
+            </Select>
             <div className="mb-4">
               <p>Cual es el peso total de su carga:</p>
               <TextField
-                label ="Peso (kg)"
-                value ={peso}
+                label="Peso (kg)"
+                value={peso}
                 onChange={(e) => handleInputChange(e, setPeso)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
             <div className="mb-8">
               <p>Cual es el volumen total de su carga:</p>
               <TextField
-                label ="Volumen (m3)"
-                value ={volumen}
+                label="Volumen (m3)"
+                value={volumen}
                 onChange={(e) => handleInputChange(e, setVolumen)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
           </>
         )}
-        
+
         {showQuestions['Granel Solido'] && (
           <>
             <Select
@@ -641,31 +641,31 @@ const [recommendationsState, setRecommendationsState] = useState({
               <MenuItem value="acero">Contenedores de acero</MenuItem>
               <MenuItem value="seca">Remolque caja seca</MenuItem>
               <MenuItem value="contenedor">Remolque de contenedor</MenuItem>
-              
-              
-            </Select> 
+
+
+            </Select>
             <div className="mb-4">
               <p>Cual es el peso total de su carga:</p>
               <TextField
-                label ="Peso (kg)"
-                value ={peso}
+                label="Peso (kg)"
+                value={peso}
                 onChange={(e) => handleInputChange(e, setPeso)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
             <div className="mb-8">
               <p>Cual es el volumen total de su carga:</p>
               <TextField
-                label ="Volumen (m3)"
-                value ={volumen}
+                label="Volumen (m3)"
+                value={volumen}
                 onChange={(e) => handleInputChange(e, setVolumen)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
           </>
@@ -676,8 +676,8 @@ const [recommendationsState, setRecommendationsState] = useState({
             <Select
               value={plataforma}
               onChange={(e) => {
-                handleChange(e,setPlataforma);
-                if (e.target.value !== 'p40' && e.target.value !=='20') {
+                handleChange(e, setPlataforma);
+                if (e.target.value !== 'p40' && e.target.value !== '20') {
                   setRemolqueSeleccionado('Sencillo');
                   alert('Solo las plataformas de 20" y 40" pueden ser Full');
                 }
@@ -688,7 +688,7 @@ const [recommendationsState, setRecommendationsState] = useState({
               margin="normal"
               className="mb-4"
             >
-              
+
               <MenuItem value="" disabled>Seleccione tipo de unidad</MenuItem>
               <MenuItem value="pcamion">Cami&oacute;n con plataforma</MenuItem>
               <MenuItem value="p20">Plataforma 20"</MenuItem>
@@ -697,21 +697,21 @@ const [recommendationsState, setRecommendationsState] = useState({
 
             </Select>
             {(plataforma === 'p40' || plataforma === 'p20') && (
-            <Select
-              value={remolqueSeleccionado}
-              onChange={(e) => handleChange(e, setRemolqueSeleccionado)}
-              fullWidth
-              displayEmpty
-              variant="outlined"
-              margin="normal"
-              className="mb-4"
-            >
-              
-              <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
-              <MenuItem value="Sencillo">Sencillo (1 remolque)</MenuItem>
-              <MenuItem value="Full">Full (2 remolques)</MenuItem>
-              
-            </Select>
+              <Select
+                value={remolqueSeleccionado}
+                onChange={(e) => handleChange(e, setRemolqueSeleccionado)}
+                fullWidth
+                displayEmpty
+                variant="outlined"
+                margin="normal"
+                className="mb-4"
+              >
+
+                <MenuItem value="" disabled>Seleccione número de remolque</MenuItem>
+                <MenuItem value="Sencillo">Sencillo (1 remolque)</MenuItem>
+                <MenuItem value="Full">Full (2 remolques)</MenuItem>
+
+              </Select>
             )}
             {remolqueSeleccionado === 'Full' && (
               <p>Informaci&oacute;n del primer remolque:</p>
@@ -725,7 +725,7 @@ const [recommendationsState, setRecommendationsState] = useState({
               margin="normal"
               variant="outlined"
               className="mb-4"
-              inputProps={{min:1}}
+              inputProps={{ min: 1 }}
             />
             <Select
               value={embalajeSeleccionado}
@@ -737,9 +737,9 @@ const [recommendationsState, setRecommendationsState] = useState({
               className="mb-4"
 
             >
-              
+
               <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
-              
+
               <MenuItem value="Cajas">Cajas</MenuItem>
               <MenuItem value="Carton">Cart&oacute;n</MenuItem>
               <MenuItem value="Pallets">Pallets</MenuItem>
@@ -749,7 +749,7 @@ const [recommendationsState, setRecommendationsState] = useState({
               <MenuItem value="Bolsas">Sacos o bolsas</MenuItem>
               <MenuItem value="Atados">Atados</MenuItem>
               <MenuItem value="Na">No aplica</MenuItem>
-              
+
             </Select>
             <div>
               <p>Cual es la dimensi&oacute;n total de su carga:</p>
@@ -760,7 +760,7 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
               <TextField
                 label="Ancho (cm)"
@@ -769,7 +769,7 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
                 required
               />
               <TextField
@@ -779,113 +779,108 @@ const [recommendationsState, setRecommendationsState] = useState({
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
             <div className="mb-8">
               <p>Cual es el peso total de su carga:</p>
               <TextField
-                label ="Peso (kg)"
-                value ={peso}
+                label="Peso (kg)"
+                value={peso}
                 onChange={(e) => handleInputChange(e, setPeso)}
                 type="number"
                 margin="normal"
                 variant="outlined"
-                inputProps={{min:1}}
+                inputProps={{ min: 1 }}
               />
             </div>
             {remolqueSeleccionado === 'Full' && (
               <>
-              <p>Informaci&oacute;n del segundo remolque</p>
-              <TextField
-                label="No. de piezas"
-                value={numeroPiezas2}
-                onChange={(e) => handleInputChange(e, setNumeroPiezas2)}
-                fullWidth
-                type="number"
-                margin="normal"
-                variant="outlined"
-                className="mb-4"
-                inputProps={{min:1}}
-              />
-              <Select
-                value={embalajeSeleccionado2}
-                onChange={(e) => {
-                  handleChange(e, setEmbalajeSeleccionado2);
-                }}
-                fullWidth
-                displayEmpty
-                variant="outlined"
-                margin="normal"
-                className="mb-4"
-              >
-                
-                <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
-                
-                <MenuItem value="Cajas">Cajas</MenuItem>
-                <MenuItem value="Carton">Cart&oacute;n</MenuItem>
-                <MenuItem value="Pallets">Pallets</MenuItem>
-                <MenuItem value="Jaulas">Jaulas de madera</MenuItem>
-                <MenuItem value="Vidrio">Envases de vidrio</MenuItem>
-                <MenuItem value="Plastico">Envases de plastico</MenuItem>
-                <MenuItem value="Bolsas">Sacos o bolsas</MenuItem>
-                <MenuItem value="Atados">Atados</MenuItem>
-                <MenuItem value="Na">No aplica</MenuItem>
-                
-              </Select>
-              <div>
-                <p>Cual es la dimensión total de su carga:</p>
+                <p>Informaci&oacute;n del segundo remolque</p>
                 <TextField
-                  label="Alto (cm)"
-                  value={alto2}
-                  onChange={(e) => handleInputChange(e, setAlto2)}
+                  label="No. de piezas"
+                  value={numeroPiezas2}
+                  onChange={(e) => handleInputChange(e, setNumeroPiezas2)}
+                  fullWidth
                   type="number"
                   margin="normal"
                   variant="outlined"
-                  inputProps={{min:1}}
+                  className="mb-4"
+                  inputProps={{ min: 1 }}
                 />
-                <TextField
-                  label="Ancho (cm)"
-                  value={ancho2}
-                  onChange={(e) => handleInputChange(e, setAncho2)}
-                  type="number"
-                  margin="normal"
+                <Select
+                  value={embalajeSeleccionado2}
+                  onChange={(e) => {
+                    handleChange(e, setEmbalajeSeleccionado2);
+                  }}
+                  fullWidth
+                  displayEmpty
                   variant="outlined"
-                  inputProps={{min:1}}
-                />
-                <TextField
-                  label="Largo (cm)"
-                  value={largo2}
-                  onChange={(e) => handleInputChange(e, setLargo2)}
-                  type="number"
                   margin="normal"
-                  variant="outlined"
-                  inputProps={{min:1}}
-                />
-              </div>
-              <div>
-                <p>Cual es el peso total de su carga:</p>
-                <TextField
-                  label ="Peso (kg)"
-                  value ={peso2}
-                  onChange={(e) => handleInputChange(e, setPeso2)}
-                  type="number"
-                  margin="normal"
-                  variant="outlined"
-                  inputProps={{min:1}}
-                />
-              </div>
+                  className="mb-4"
+                >
+
+                  <MenuItem value="" disabled>Seleccione tipo de embalaje</MenuItem>
+
+                  <MenuItem value="Cajas">Cajas</MenuItem>
+                  <MenuItem value="Carton">Cart&oacute;n</MenuItem>
+                  <MenuItem value="Pallets">Pallets</MenuItem>
+                  <MenuItem value="Jaulas">Jaulas de madera</MenuItem>
+                  <MenuItem value="Vidrio">Envases de vidrio</MenuItem>
+                  <MenuItem value="Plastico">Envases de plastico</MenuItem>
+                  <MenuItem value="Bolsas">Sacos o bolsas</MenuItem>
+                  <MenuItem value="Atados">Atados</MenuItem>
+                  <MenuItem value="Na">No aplica</MenuItem>
+
+                </Select>
+                <div>
+                  <p>Cual es la dimensión total de su carga:</p>
+                  <TextField
+                    label="Alto (cm)"
+                    value={alto2}
+                    onChange={(e) => handleInputChange(e, setAlto2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                  <TextField
+                    label="Ancho (cm)"
+                    value={ancho2}
+                    onChange={(e) => handleInputChange(e, setAncho2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                  <TextField
+                    label="Largo (cm)"
+                    value={largo2}
+                    onChange={(e) => handleInputChange(e, setLargo2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                </div>
+                <div>
+                  <p>Cual es el peso total de su carga:</p>
+                  <TextField
+                    label="Peso (kg)"
+                    value={peso2}
+                    onChange={(e) => handleInputChange(e, setPeso2)}
+                    type="number"
+                    margin="normal"
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                </div>
               </>
             )}
           </>
         )}
-{selectedTipoCarga && (
-          <Recommendations
-            selectedTipoCarga={selectedTipoCarga}
-            recommendationsState={recommendationsState}
-            onRecommendationsChange={handleRecommendationsChange}
-          />
-        )}        
+        {selectedTipoCarga && <Recommendations selectedTipoCarga={selectedTipoCarga} />}
+
         <Button type="submit" variant="contained" color="primary">
           Generar Nueva Carga
         </Button>
