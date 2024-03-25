@@ -1,5 +1,5 @@
 import React from "react";
-import { User, Truck, Upload, Map, ShoppingBag, DollarSign, Clock, Phone } from "react-feather";
+import { User, Truck, Upload, Map, ShoppingBag, DollarSign, Clock, Phone, PlusCircle } from "react-feather";
 import { useNavigate } from "react-router-dom";
 
 const SidebarTrapape = () => {
@@ -27,6 +27,14 @@ const SidebarTrapape = () => {
                             </a>
                         </li>
                         <li>
+                            <a onClick={() => navigate('/cargaNueva')} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 group hover:shadow-md">
+                                <span className="inline-block align-middle mr-1">
+                                    <PlusCircle width={18} />
+                                </span>
+                                <span className="ml-3">Nueva Carga</span>
+                            </a>
+                        </li>
+                        <li>
                             <a onClick={() => navigate('/cargasMasivas')} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 group hover:shadow-md">
                                 <span className="inline-block align-middle mr-1">
                                     <Upload width={18} />
@@ -34,15 +42,9 @@ const SidebarTrapape = () => {
                                 <span className="ml-3">Cargas Masivas</span>
                             </a>
                         </li>
+                        
                         {/* 
-                        <li>
-                            <a onClick={() => navigate('/cargas')} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 group hover:shadow-md">
-                                <span className="inline-block align-middle mr-1">
-                                    <Map width={18} />
-                                </span>
-                                <span className="ml-3">Rastreo</span>
-                            </a>
-                        </li>
+                        
                         <li>
                             <a onClick={() => navigate('/cargas')} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 group hover:shadow-md">
                                 <span className="inline-block align-middle mr-1">
